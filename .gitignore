@@ -10,7 +10,6 @@ kube-controller-manager-key.pem
 kube-controller-manager.csr
 kube-controller-manager.kubeconfig
 kube-controller-manager.pem
-kube-scheduler-csr.json
 kube-scheduler-key.pem
 kube-scheduler.csr
 kube-scheduler.kubeconfig
