@@ -18,7 +18,6 @@ kube-proxy-key.pem
 kube-proxy.csr             
 kube-proxy.kubeconfig      
 kube-proxy.pem             
-kubernetes-csr.json        
 kubernetes-key.pem         
 kubernetes.csr             
 kubernetes.pem             
