@@ -1,4 +1,3 @@
-admin.kubeconfig
 encryption-config.yaml     
 *.swp
 /pki/*.csr
