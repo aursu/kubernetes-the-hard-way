@@ -1,6 +1,5 @@
 admin.kubeconfig
 encryption-config.yaml     
-kube-scheduler.kubeconfig
 *.swp
 /pki/*.csr
 /pki/*.pem
