@@ -1,4 +1,3 @@
-encryption-config.yaml     
 *.swp
 /pki/*.csr
 /pki/*.pem
