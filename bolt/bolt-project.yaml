@@ -1,0 +1,7 @@
+---
+name: kubernetes
+modules:
+- name: aursu-puppet
+  version_requirement: "=0.8.0"
+- name: aursu-etcd
+  version_requirement: "=0.3.0"

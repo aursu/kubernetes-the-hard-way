@@ -1,0 +1,24 @@
+# This is an example inventory.yaml
+# To read more about inventory files, see https://pup.pt/bolt-inventory
+groups:
+- name: kubernetes
+  targets:
+    - name: controller-0
+      uri: 34.159.32.14:22
+    - name: controller-1
+      uri: 35.242.232.183:22
+    - name: controller-2
+      uri: 35.198.75.231:22
+    - name: worker-0
+      uri: 34.107.101.187:22
+    - name: worker-1
+      uri: 34.107.57.93:22
+    - name: worker-2
+      uri: 34.107.0.127:22
+  config:
+    transport: ssh
+    ssh:
+      user: aursu
+      run-as: root
+      host-key-check: false
+      private-key: keys/google_compute_engine.pem
