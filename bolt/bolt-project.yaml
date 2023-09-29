@@ -5,3 +5,5 @@ modules:
   version_requirement: "=0.8.0"
 - name: aursu-etcd
   version_requirement: "=0.3.0"
+- name: aursu-kubeinstall
+  version_requirement: "=0.25.0"
