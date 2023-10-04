@@ -6,15 +6,15 @@ moduledir '.modules'
 
 mod 'tlsinfo',
   git: 'https://github.com/aursu/puppet-tlsinfo.git',
-  ref: 'f6a05c76430af2346a506352ffd920a1a480c05d'
+  ref: '4396720400d8928d1f8bb5a4c6bf495faa32303d'
 mod 'aursu/kubeinstall', '0.25.0'
 mod 'aursu/etcd', '0.3.0'
 mod 'aursu/puppet', '0.8.0'
 mod 'puppetlabs/stdlib', '8.6.0'
-mod 'aursu/bsys', '0.4.0'
+mod 'aursu/bsys', '0.4.1'
 mod 'puppet/archive', '7.0.0'
 mod 'aursu/dockerinstall', '0.17.0'
-mod 'puppet/kmod', '4.0.0'
+mod 'puppet/kmod', '4.0.1'
 mod 'puppet/selinux', '3.4.1'
 mod 'puppetlabs/apt', '9.0.2'
 mod 'thias/sysctl', '1.0.7'
