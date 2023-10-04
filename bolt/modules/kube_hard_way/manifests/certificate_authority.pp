@@ -6,6 +6,7 @@
 #   include kube_hard_way::certificate_authority
 class kube_hard_way::certificate_authority (
 ) {
+  include tlsinfo
   include kubeinstall::params
 
   tlsinfo::cfssl::ca_config { 'ca-config':

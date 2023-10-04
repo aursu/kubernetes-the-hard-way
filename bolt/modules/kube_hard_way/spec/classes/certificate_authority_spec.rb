@@ -3,8 +3,6 @@
 require 'spec_helper'
 
 describe 'kube_hard_way::certificate_authority' do
-  let(:pre_condition) { 'include tlsinfo' }
-
   on_supported_os.each do |os, os_facts|
     context "on #{os}" do
       let(:facts) { os_facts }
