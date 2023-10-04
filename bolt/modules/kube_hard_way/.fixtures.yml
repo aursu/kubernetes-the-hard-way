@@ -15,4 +15,4 @@ fixtures:
   repositories:
     tlsinfo:
       repo: https://github.com/aursu/puppet-tlsinfo.git
-      ref: "tags/v0.10.0"
+      ref: "tags/v0.10.1"
