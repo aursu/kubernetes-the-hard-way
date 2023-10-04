@@ -1,12 +1,19 @@
 {
   "name": "aursu-kube_hard_way",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": "aursu",
   "summary": "",
   "license": "Apache-2.0",
   "source": "",
   "dependencies": [
-
+    {
+      "name": "aursu/tlsinfo",
+      "version_requirement": ">= 0.10.0 < 1.0.0"
+    },
+    {
+      "name": "aursu/kubeinstall",
+      "version_requirement": ">= 0.25.1 < 1.0.0"
+    }
   ],
   "operatingsystem_support": [
     {
