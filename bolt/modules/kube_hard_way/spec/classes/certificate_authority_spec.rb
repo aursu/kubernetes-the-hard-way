@@ -8,7 +8,7 @@ describe 'kube_hard_way::certificate_authority' do
       let(:facts) { os_facts }
 
       let(:ca_config_content) do
-    <<-JSONDATA
+        <<-JSONDATA
 {
     "signing": {
         "default": {
@@ -28,10 +28,10 @@ describe 'kube_hard_way::certificate_authority' do
     }
 }
 JSONDATA
-  end
+      end
 
-  let(:csr_config_content) do
-    <<-JSONDATA
+      let(:csr_config_content) do
+        <<-JSONDATA
 {
     "CN": "Kubernetes",
     "names": [
@@ -49,7 +49,7 @@ JSONDATA
     }
 }
 JSONDATA
-  end
+      end
 
       it { is_expected.to compile.with_all_deps }
 
