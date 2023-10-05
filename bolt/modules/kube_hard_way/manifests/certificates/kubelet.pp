@@ -44,10 +44,11 @@ define kube_hard_way::certificates::kubelet (
   }
 
   tlsinfo::cfssl::gencert { $instance:
-    config => 'ca-config.json',
-    profile => 'kubernetes',
+    path     => $kubeinstall::params::cert_dir,
+    config   => 'ca-config.json',
+    profile  => 'kubernetes',
     hostname => $instance_option + [$hostname, $internal_ip] + $extenal_ip_option,
-    require => [
+    require  => [
       Tlsinfo::Cfssl::Crt_req["${instance}-csr"],
       Tlsinfo::Cfssl::Ca_config['ca-config'],
     ]

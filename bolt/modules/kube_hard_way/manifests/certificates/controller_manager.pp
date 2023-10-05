@@ -17,7 +17,8 @@ class kube_hard_way::certificates::controller_manager {
   }
 
   tlsinfo::cfssl::gencert { 'kube-controller-manager':
-    config => 'ca-config.json',
+    path    => $kubeinstall::params::cert_dir,
+    config  => 'ca-config.json',
     profile => 'kubernetes',
     require => [
       Tlsinfo::Cfssl::Crt_req['kube-controller-manager-csr'],

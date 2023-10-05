@@ -17,7 +17,8 @@ class kube_hard_way::certificates::kube_scheduler {
   }
 
   tlsinfo::cfssl::gencert { 'kube-scheduler':
-    config => 'ca-config.json',
+    path    => $kubeinstall::params::cert_dir,
+    config  => 'ca-config.json',
     profile => 'kubernetes',
     require => [
       Tlsinfo::Cfssl::Crt_req['kube-scheduler-csr'],

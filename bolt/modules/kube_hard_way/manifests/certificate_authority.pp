@@ -27,7 +27,8 @@ class kube_hard_way::certificate_authority (
   }
 
   tlsinfo::cfssl::gencert { 'ca':
-    initca => true,
+    path    => $kubeinstall::params::cert_dir,
+    initca  => true,
     require => [
       Tlsinfo::Cfssl::Crt_req['ca-csr'],
     ]

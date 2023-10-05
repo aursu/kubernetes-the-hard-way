@@ -36,10 +36,11 @@ class kube_hard_way::certificates::kubernetes_api (
   }
 
   tlsinfo::cfssl::gencert { 'kubernetes':
-    config => 'ca-config.json',
-    profile => 'kubernetes',
+    path     => $kubeinstall::params::cert_dir,
+    config   => 'ca-config.json',
+    profile  => 'kubernetes',
     hostname => $hostname_option,
-    require => [
+    require  => [
       Tlsinfo::Cfssl::Crt_req['kubernetes-csr'],
       Tlsinfo::Cfssl::Ca_config['ca-config'],
     ]

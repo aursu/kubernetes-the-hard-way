@@ -17,7 +17,8 @@ class kube_hard_way::certificates::admin {
   }
 
   tlsinfo::cfssl::gencert { 'admin':
-    config => 'ca-config.json',
+    path    => $kubeinstall::params::cert_dir,
+    config  => 'ca-config.json',
     profile => 'kubernetes',
     require => [
       Tlsinfo::Cfssl::Crt_req['admin-csr'],
