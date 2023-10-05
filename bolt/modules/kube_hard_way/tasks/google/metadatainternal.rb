@@ -3,7 +3,7 @@
 require_relative 'httpclient'
 
 # class to request Google Cloud internal metadata
-class Google::MetadataInternal < HTTPClient
+class Google::MetadataInternal < Google::HTTPClient
   def initialize
     super
     @hostname = nil
