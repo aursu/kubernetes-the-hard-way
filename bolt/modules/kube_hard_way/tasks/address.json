@@ -1,0 +1,11 @@
+{
+  "description": "Get Google Cloud address information",
+  "parameters": {
+    "address": {
+      "description": "Compute Engine address to describe",
+      "type": "String[1]"
+    }
+  },
+  "files": ["ruby_task_helper/files/task_helper.rb", "kube_hard_way/tasks/google/"],
+  "input_method": "stdin"
+}

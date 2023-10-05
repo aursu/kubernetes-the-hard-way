@@ -1,0 +1,8 @@
+{
+  "description": "Get Google Cloud VM hostname",
+  "parameters": {},
+  "files": [
+    "ruby_task_helper/files/task_helper.rb", "kube_hard_way/tasks/google/"
+  ],
+  "input_method": "stdin"
+}
