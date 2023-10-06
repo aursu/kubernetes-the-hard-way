@@ -7,20 +7,20 @@
 define kube_hard_way::certificates::kubelet (
   Stdlib::Host $instance = $name,
   Optional[Stdlib::Unixpath] $path = undef,
+  Stdlib::Host $hostname = $facts['networking']['hostname'],
+  Stdlib::IP::Address $internal_ip = $facts['networking']['ip'],
+  Optional[Stdlib::IP::Address] $external_ip = undef,
 ) {
-  $hostname     = $facts['networking']['hostname']
-  $internal_ip  = $facts['networking']['ip']
-
   if $facts['gce'] {
     $gce_instance       = $facts['gce']['instance']
     # $hostname           = $gce_instance['name']
     $network_interfaces = $gce_instance['networkInterfaces']
     # $internal_ip        = $network_interfaces[0]['ip']
     $access_configs     = $network_interfaces[0]['accessConfigs']
-    $extenal_ip         = $access_configs[0]['externalIp']
+    $gce_external_ip    = $access_configs[0]['externalIp']
   }
   else {
-    $extenal_ip   = undef
+    $gce_external_ip = undef
   }
 
   include tlsinfo
@@ -37,9 +37,12 @@ define kube_hard_way::certificates::kubelet (
     default   => [$instance],
   }
 
-  $extenal_ip_option = $extenal_ip ? {
-    Stdlib::Host => [$extenal_ip],
-    default      => [],
+  $external_ip_option = $external_ip ? {
+    Stdlib::IP::Address => [$external_ip],
+    default             => $gce_external_ip ? {
+      Stdlib::IP::Address => [$gce_external_ip],
+      default             => [],
+    },
   }
 
   tlsinfo::cfssl::crt_req { "${instance}-csr":
@@ -53,7 +56,7 @@ define kube_hard_way::certificates::kubelet (
     path     => $cert_dir,
     config   => 'ca-config.json',
     profile  => 'kubernetes',
-    hostname => $instance_option + [$hostname, $internal_ip] + $extenal_ip_option,
+    hostname => $instance_option + [$hostname, $internal_ip] + $external_ip_option,
     require  => [
       Tlsinfo::Cfssl::Crt_req["${instance}-csr"],
       Tlsinfo::Cfssl::Ca_config['ca-config'],
