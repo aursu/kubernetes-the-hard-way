@@ -13,7 +13,7 @@ class kube_hard_way::certificates::service_account (
 
   $cert_dir = $path ? {
     Stdlib::Unixpath => $path,
-    default => $kubeinstall::params::cert_dir,
+    default          => $kubeinstall::params::cert_dir,
   }
 
   tlsinfo::cfssl::crt_req { 'service-account-csr':

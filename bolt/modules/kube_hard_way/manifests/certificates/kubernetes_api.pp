@@ -12,14 +12,20 @@ class kube_hard_way::certificates::kubernetes_api (
     '10.240.0.12',
   ],
   Optional[Stdlib::Host] $public_address = undef,
+  Optional[Stdlib::Unixpath] $path = undef,
 ) {
   include tlsinfo
   include kubeinstall::params
   include kube_hard_way::certificate_authority
 
+  $cert_dir = $path ? {
+    Stdlib::Unixpath => $path,
+    default          => $kubeinstall::params::cert_dir,
+  }
+
   $public_address_option = $public_address ? {
     Stdlib::Host => [$public_address],
-    default => [],
+    default      => [],
   }
 
   $hostname_option = [$internal_ip] + $controller_nodes + $public_address_option + [
@@ -29,14 +35,14 @@ class kube_hard_way::certificates::kubernetes_api (
   ]
 
   tlsinfo::cfssl::crt_req { 'kubernetes-csr':
-    path => $kubeinstall::params::cert_dir,
-    common_name => 'kubernetes',
-    name_organisation => 'Kubernetes',
+    path                   => $cert_dir,
+    common_name            => 'kubernetes',
+    name_organisation      => 'Kubernetes',
     name_organisation_unit => 'Kubernetes',
   }
 
   tlsinfo::cfssl::gencert { 'kubernetes':
-    path     => $kubeinstall::params::cert_dir,
+    path     => $cert_dir,
     config   => 'ca-config.json',
     profile  => 'kubernetes',
     hostname => $hostname_option,
