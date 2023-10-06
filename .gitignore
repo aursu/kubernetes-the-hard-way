@@ -1,3 +1,4 @@
 *.swp
 /pki/*.csr
 /pki/*.pem
+/bolt/downloads
