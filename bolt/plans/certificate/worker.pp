@@ -11,9 +11,24 @@ plan kubernetes::certificate::worker (
 
   run_plan(facts, $main_controller)
   get_targets($targets).each |$target| {
+    run_plan(facts, $target)
+
+    if $target.facts['gce'] {
+      $gce_instance       = $target.facts['gce']['instance']
+      $network_interfaces = $gce_instance['networkInterfaces']
+      $access_configs     = $network_interfaces[0]['accessConfigs']
+      $gce_external_ip    = $access_configs[0]['externalIp']
+    }
+    else {
+      $gce_external_ip = undef
+    }
+
     apply($main_controller) {
       kube_hard_way::certificates::kubelet { $target.name:
-        path => $cert_dir,
+        path        => $cert_dir,
+        hostname    => $target.facts['networking']['hostname'],
+        internal_ip => $target.facts['networking']['ip'],
+        external_ip => $gce_external_ip,
       }
     }
   }
