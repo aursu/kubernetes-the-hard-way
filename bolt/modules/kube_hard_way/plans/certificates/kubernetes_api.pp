@@ -1,6 +1,7 @@
 # @summary Generate certificate for Kubernetes API
 #
 # Generate certificate for Kubernetes API
+# Uses task to retrieve public IP address using gcloud command
 #
 # @param control_plain
 #
