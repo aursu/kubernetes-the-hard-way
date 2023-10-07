@@ -5,7 +5,7 @@
 # @example
 #   include kube_hard_way::certificates::service_account
 class kube_hard_way::certificates::service_account (
-  Optional[Stdlib::Unixpath] $path = undef
+  Optional[Stdlib::Unixpath] $path = undef,
 ) {
   include tlsinfo
   include kubeinstall::params
