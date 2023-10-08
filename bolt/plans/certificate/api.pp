@@ -28,7 +28,7 @@ plan kubernetes::certificate::api (
     class { 'kube_hard_way::certificates::service_account': path => $cert_dir, }
   }
 
-  run_plan('kube_hard_way::certificates::kubernetes_api', 
+  run_plan('kube_hard_way::certificates::kubernetes_api',
     control_plain      => $main_controller.name,
     internal_ip        => $internal_ip,
     controller_nodes   => $controller_nodes,
