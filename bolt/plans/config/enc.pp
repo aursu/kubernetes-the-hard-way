@@ -7,6 +7,7 @@ plan kubernetes::config::enc (
   }
 
   $main_controller = get_targets($control_plain)[0]
+  $rest_controllers = get_targets($controllers).filter |$target| { $target.name != $main_controller.name }
 
   # get IP address information based on its GCE name
   $key_info = run_task('kube_hard_way::encryption_key', $main_controller, 'force' => 1)
@@ -19,7 +20,19 @@ plan kubernetes::config::enc (
   }
 
   run_plan(facts, $main_controller)
-  return apply($main_controller) {
+  apply($main_controller) {
     class { 'kube_hard_way::encryption_config': key => $encryption_key, }
+  }
+
+  run_plan(facts, $rest_controllers)
+  apply($rest_controllers) {
+    class { 'kube_hard_way::setup': }
+  }
+
+  $downloaded = download_file('/var/lib/kubernetes/encryption-config.yaml', 'encryption-config.yaml', $main_controller)
+  $downloaded.each |$file| {
+    $down_path = $file['path']
+
+    upload_file($down_path, '/var/lib/kubernetes/encryption-config.yaml', $rest_controllers)
   }
 }
