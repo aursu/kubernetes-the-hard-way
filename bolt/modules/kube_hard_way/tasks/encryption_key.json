@@ -1,0 +1,17 @@
+{
+    "description": "Set encryption key for Kubernetes",
+    "parameters": {
+        "force": {
+            "description": "Force to set key into /var/lib/kubernetes/encryption-config.yaml",
+            "type": "Optional[Integer]",
+            "default": 0
+          }
+    },
+    "implementations": [
+        {
+            "name": "encryption_key.sh",
+            "requirements": ["shell"],
+            "input_method": "environment"
+        }
+    ]
+  }
