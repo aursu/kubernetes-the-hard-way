@@ -9,8 +9,10 @@ mod 'tlsinfo',
   ref: '843ceb39cf529c7a04eeaf01361a279ca9972474'
 mod 'kubeinstall',
   git: 'https://github.com/aursu/puppet-kubeinstall.git',
-  ref: 'ea3f9be123b7bf860948580eaf7985c2fd976f21'
-mod 'aursu/etcd', '0.3.0'
+  ref: 'e2e6fe159ddad9c6f926f22c5dd395c3ac20b756'
+mod 'etcd',
+  git: 'https://github.com/aursu/puppet-etcd.git',
+  ref: '19f9c5907482f1f515add6031611aeef919921db'
 mod 'aursu/puppet', '0.8.0'
 mod 'puppetlabs/stdlib', '8.6.0'
 mod 'aursu/bsys', '0.4.1'
