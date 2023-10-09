@@ -4,7 +4,7 @@
 #
 # @example
 #   include kube_hard_way::tools::yq
-class kube_hard_way::tools::yq  (
+class kube_hard_way::tools::yq (
   String $version = '4.35.2',
 ) {
   $download_url = "https://github.com/mikefarah/yq/releases/download/v${version}/yq_linux_amd64"
