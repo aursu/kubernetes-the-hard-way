@@ -19,7 +19,7 @@ plan kubernetes::config::api (
     $public_address = $addr_info.first.value['address']
   }
   else {
-    fail_plan("Unable ot retrieve Kubernetes cluster address")
+    fail_plan('Unable ot retrieve Kubernetes cluster address')
   }
 
   run_plan(facts, $main_controller)
