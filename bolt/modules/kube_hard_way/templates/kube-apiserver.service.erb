@@ -1,0 +1,44 @@
+[Unit]
+Description=Kubernetes API Server
+Documentation=https://github.com/kubernetes/kubernetes
+
+[Service]
+Type=notify
+Restart=on-failure
+RestartSec=5s
+LimitNOFILE=40000
+TimeoutStartSec=0
+
+ExecStart=/usr/local/bin/kube-apiserver \
+    --advertise-address=<%= @advertise_address %> \
+    --allow-privileged=true \
+    --apiserver-count=3 \
+    --audit-log-maxage=30 \
+    --audit-log-maxbackup=3 \
+    --audit-log-maxsize=100 \
+    --audit-log-path=/var/log/audit.log \
+    --authorization-mode=Node,RBAC \
+    --bind-address=<%= @bind_address %> \
+    --client-ca-file=<%= @client_ca_file %> \
+    --enable-admission-plugins=NamespaceLifecycle,NodeRestriction,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota \
+    --etcd-cafile=<%= @etcd_cafile %> \
+    --etcd-certfile=<%= @etcd_certfile %>  \
+    --etcd-keyfile=<%= @etcd_keyfile %>  \
+    --etcd-servers=<%= @etcd_servers_string %> \
+    --event-ttl=1h \
+    --encryption-provider-config=<%= @encryption_provider_config %> \
+    --kubelet-certificate-authority=<%= @kubelet_certificate_authority %> \
+    --kubelet-client-certificate=<%= @kubelet_client_certificate %> \
+    --kubelet-client-key=<%= @kubelet_client_key %> \
+    --runtime-config='api/all=true' \
+    --service-account-key-file=<%= @service_account_key_file %> \
+    --service-account-signing-key-file=<%= @service_account_signing_key_file %> \
+    --service-account-issuer=<%= @service_account_issuer %> \
+    --service-cluster-ip-range=<%= @service_cluster_ip_range %> \
+    --service-node-port-range=30000-32767 \
+    --tls-cert-file=<%= @tls_cert_file %> \
+    --tls-private-key-file=<%= @tls_private_key_file %> \
+    --v=2
+
+[Install]
+WantedBy=multi-user.target

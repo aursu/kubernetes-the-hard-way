@@ -6,5 +6,7 @@
 #   include kube_hard_way::params
 class kube_hard_way::params {
   $lib_dir = '/var/lib/kubernetes'
+  $config_dir = '/etc/kubernetes/config'
   $encription_key = "${lib_dir}/enc.key"
+  $encryption_provider_config = '/var/lib/kubernetes/encryption-config.yaml'
 }

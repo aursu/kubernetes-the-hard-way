@@ -7,7 +7,7 @@
 class kube_hard_way::setup {
   include kube_hard_way::params
 
-  file { $kube_hard_way::params::lib_dir:
+  file { [$kube_hard_way::params::lib_dir, $kube_hard_way::params::config_dir]:
     ensure => directory,
   }
 }
