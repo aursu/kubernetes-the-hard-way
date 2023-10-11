@@ -34,8 +34,9 @@ define kube_hard_way::kubeconfig (
 
   exec {
     default:
-      path => '/usr/local/bin:/usr/bin:/bin',
-      cwd  => $cert_dir,
+      path    => '/usr/local/bin:/usr/bin:/bin',
+      cwd     => $cert_dir,
+      require => Class['kubeinstall::kubectl::binary'],
       ;
     "kubectl config set-cluster ${cluster_name} ${config_option}":
       command => "kubectl config set-cluster ${cluster_name} ${ca_option} --embed-certs=true  ${server_option} ${config_option}",
