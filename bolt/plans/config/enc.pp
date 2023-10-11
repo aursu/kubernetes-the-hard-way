@@ -21,7 +21,7 @@ plan kubernetes::config::enc (
 
   run_plan(facts, $main_controller)
   apply($main_controller) {
-    class { 'kube_hard_way::encryption_config': key => $encryption_key, }
+    class { 'kube_hard_way::config::encryption': key => $encryption_key, }
   }
 
   run_plan(facts, $rest_controllers)
