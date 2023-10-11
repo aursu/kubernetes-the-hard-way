@@ -3,8 +3,8 @@
 # A description of what this class does
 #
 # @example
-#   include kube_hard_way::encryption_config
-class kube_hard_way::encryption_config (
+#   include kube_hard_way::config::encryption
+class kube_hard_way::config::encryption (
   Optional[Stdlib::Base64] $key = undef,
 ) {
   include kube_hard_way::params
@@ -39,6 +39,7 @@ class kube_hard_way::encryption_config (
         File["${kube_hard_way::params::lib_dir}/encryption-config.yaml"],
       ],
     }
+    $encription_key = undef
 
     Class['kube_hard_way::tools::yq'] -> Exec['/usr/libexec/encryption-key.sh']
   }
