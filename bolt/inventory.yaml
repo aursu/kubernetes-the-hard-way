@@ -4,17 +4,17 @@ groups:
 - name: kubernetes
   targets:
     - name: controller-0
-      uri: 34.159.32.14:22
+      uri: 34.83.145.108:22
     - name: controller-1
-      uri: 35.242.232.183:22
+      uri: 34.168.103.127:22
     - name: controller-2
-      uri: 35.198.75.231:22
+      uri: 35.230.95.223:22
     - name: worker-0
-      uri: 34.107.101.187:22
+      uri: 104.198.97.227:22
     - name: worker-1
-      uri: 34.107.57.93:22
+      uri: 35.247.19.244:22
     - name: worker-2
-      uri: 34.107.0.127:22
+      uri: 34.127.37.87:22
   config:
     transport: ssh
     ssh:
@@ -25,11 +25,11 @@ groups:
 - name: controllers
   targets:
     - name: controller-0
-      uri: 34.159.32.14:22
+      uri: 34.83.145.108:22
     - name: controller-1
-      uri: 35.242.232.183:22
+      uri: 34.168.103.127:22
     - name: controller-2
-      uri: 35.198.75.231:22
+      uri: 35.230.95.223:22
   config:
     transport: ssh
     ssh:
@@ -40,11 +40,11 @@ groups:
 - name: workers
   targets:
     - name: worker-0
-      uri: 34.107.101.187:22
+      uri: 104.198.97.227:22
     - name: worker-1
-      uri: 34.107.57.93:22
+      uri: 35.247.19.244:22
     - name: worker-2
-      uri: 34.107.0.127:22
+      uri: 34.127.37.87:22
   config:
     transport: ssh
     ssh:
