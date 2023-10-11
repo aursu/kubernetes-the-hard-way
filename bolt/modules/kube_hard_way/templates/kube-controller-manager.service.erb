@@ -1,0 +1,24 @@
+[Unit]
+Description=Kubernetes Controller Manager
+Documentation=https://github.com/kubernetes/kubernetes
+
+[Service]
+Type=notify
+Restart=on-failure
+RestartSec=5s
+ExecStart=/usr/local/bin/kube-controller-manager \
+    --bind-address=<%= @bind_address %> \
+    --cluster-cidr=<%= @cluster_cidr %> \
+    --cluster-name=<%= @cluster_name %> \
+    --cluster-signing-cert-file=<%= @cluster_signing_cert_file %> \
+    --cluster-signing-key-file=<%= @cluster_signing_key_file %> \
+    --kubeconfig=<%= @kubeconfig %> \
+    --leader-elect=true \
+    --root-ca-file=<%= @root_ca_file %> \
+    --service-account-private-key-file=<%= @service_account_private_key_file %> \
+    --service-cluster-ip-range=<%= @service_cluster_ip_range %> \
+    --use-service-account-credentials=true \
+    --v=2
+
+[Install]
+WantedBy=multi-user.target

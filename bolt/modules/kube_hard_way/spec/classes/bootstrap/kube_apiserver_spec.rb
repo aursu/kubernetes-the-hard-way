@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'kube_hard_way::bootstrap::controller' do
+describe 'kube_hard_way::bootstrap::kube_apiserver' do
   on_supported_os.each do |os, os_facts|
     context "on #{os}" do
       let(:facts) { os_facts }
