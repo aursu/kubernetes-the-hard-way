@@ -3,9 +3,12 @@
 require 'spec_helper'
 
 describe 'kube_hard_way::kubeconfig' do
-  let(:title) { 'namevar' }
+  let(:title) { 'admin' }
   let(:params) do
-    {}
+    {
+      auth_user: 'admin',
+      server_name: '127.0.0.1',
+    }
   end
 
   on_supported_os.each do |os, os_facts|
