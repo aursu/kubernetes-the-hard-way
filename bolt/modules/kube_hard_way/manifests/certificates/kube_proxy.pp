@@ -30,6 +30,8 @@ class kube_hard_way::certificates::kube_proxy (
     require => [
       Tlsinfo::Cfssl::Crt_req['kube-proxy-csr'],
       Tlsinfo::Cfssl::Ca_config['ca-config'],
-    ]
+    ],
   }
+
+  Class['kube_hard_way::certificate_authority'] -> Tlsinfo::Cfssl::Crt_req['kube-proxy-csr']
 }

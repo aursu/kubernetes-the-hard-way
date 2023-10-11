@@ -23,6 +23,12 @@ plan kubernetes::certificate::worker (
       $gce_external_ip = undef
     }
 
+    # directory structure for Kubernetes must be set up before upload
+    apply($target) {
+      include kubeinstall
+      include kubeinstall::directory_structure
+    }
+
     apply($main_controller) {
       kube_hard_way::certificates::kubelet { $target.name:
         path        => $cert_dir,

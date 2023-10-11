@@ -36,6 +36,13 @@ plan kubernetes::certificate::api (
     cert_dir           => $cert_dir,
   )
 
+  # directory structure for Kubernetes must be set up before upload
+  run_plan(facts, $rest_controllers)
+  apply($rest_controllers) {
+    include kubeinstall
+    include kubeinstall::directory_structure
+  }
+
   $downloaded = download_file($cert_dir, 'pki', $main_controller)
   $downloaded.each |$file| {
     $down_path = $file['path']

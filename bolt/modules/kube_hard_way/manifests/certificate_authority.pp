@@ -9,6 +9,8 @@ class kube_hard_way::certificate_authority (
 ) {
   include tlsinfo
   include kubeinstall::params
+  include kubeinstall
+  include kubeinstall::directory_structure
 
   $cert_dir = $path ? {
     Stdlib::Unixpath => $path,
@@ -22,7 +24,7 @@ class kube_hard_way::certificate_authority (
         usages => ['signing', 'key encipherment', 'server auth', 'client auth'],
         expiry => '43824h',
       },
-    }
+    },
   }
 
   tlsinfo::cfssl::crt_req { 'ca-csr':
@@ -37,6 +39,9 @@ class kube_hard_way::certificate_authority (
     initca  => true,
     require => [
       Tlsinfo::Cfssl::Crt_req['ca-csr'],
-    ]
+    ],
   }
+
+  Class['kubeinstall::directory_structure'] -> Tlsinfo::Cfssl::Ca_config['ca-config']
+  Class['kubeinstall::directory_structure'] -> Tlsinfo::Cfssl::Crt_req['ca-csr']
 }

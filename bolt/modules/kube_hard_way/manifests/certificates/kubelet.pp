@@ -60,6 +60,8 @@ define kube_hard_way::certificates::kubelet (
     require  => [
       Tlsinfo::Cfssl::Crt_req["${instance}-csr"],
       Tlsinfo::Cfssl::Ca_config['ca-config'],
-    ]
+    ],
   }
+
+  Class['kube_hard_way::certificate_authority'] -> Tlsinfo::Cfssl::Crt_req["${instance}-csr"]
 }
