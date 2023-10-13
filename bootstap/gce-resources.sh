@@ -16,3 +16,26 @@ gcloud compute firewall-rules create kubernetes-the-hard-way-allow-external \
     --source-ranges 37.201.128.0/17
 gcloud compute addresses create kubernetes-the-hard-way \
     --region $(gcloud config get-value compute/region)
+# https://cloud.google.com/load-balancing/docs/health-check-concepts
+gcloud compute http-health-checks create kubernetes \
+    --description "Kubernetes Health Check" \
+    --host "kubernetes.default.svc.cluster.local" \
+    --request-path "/healthz"
+# https://cloud.google.com/load-balancing/docs/health-checks#fw-netlb
+gcloud compute firewall-rules create kubernetes-the-hard-way-allow-health-check \
+    --network kubernetes-the-hard-way \
+    --source-ranges 209.85.152.0/22,209.85.204.0/22,35.191.0.0/16 \
+    --allow tcp
+# https://cloud.google.com/load-balancing/docs/network
+# https://cloud.google.com/load-balancing/docs/target-pools
+gcloud compute target-pools create kubernetes-target-pool \
+    --http-health-check kubernetes
+# https://cloud.google.com/load-balancing/docs/forwarding-rule-concepts
+KUBERNETES_PUBLIC_ADDRESS=$(gcloud compute addresses describe kubernetes-the-hard-way \
+    --region $(gcloud config get-value compute/region) \
+    --format 'value(address)')
+gcloud compute forwarding-rules create kubernetes-forwarding-rule \
+    --address ${KUBERNETES_PUBLIC_ADDRESS} \
+    --ports 6443 \
+    --region $(gcloud config get-value compute/region) \
+    --target-pool kubernetes-target-pool
