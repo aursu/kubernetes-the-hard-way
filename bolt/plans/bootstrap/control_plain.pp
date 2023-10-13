@@ -15,7 +15,13 @@ plan kubernetes::bootstrap::control_plain (
     fail_plan('Unable ot retrieve Kubernetes cluster address')
   }
 
-  return apply($targets) {
+  apply($targets) {
+    include kube_hard_way::bootstrap::health_checks
     class { 'kube_hard_way::bootstrap::controller': server_name => $server_name, }
+  }
+
+  apply($main_controller) {
+    class { 'kube_hard_way::authz::kubelet': }
+    class { 'kube_hard_way::authz::kube_apiserver_kubelet': }
   }
 }
