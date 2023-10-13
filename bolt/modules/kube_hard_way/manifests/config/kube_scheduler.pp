@@ -21,7 +21,7 @@ class kube_hard_way::config::kube_scheduler (
     'kind'       => 'KubeSchedulerConfiguration',
   }
 
-  $object_data = {
+  $object_content = {
     'clientConnection' => {
       'kubeconfig' => "${cert_dir}/kube-scheduler.kubeconfig",
     },
@@ -30,7 +30,7 @@ class kube_hard_way::config::kube_scheduler (
     },
   }
 
-  $object = to_yaml($object_header + $object_data)
+  $object = to_yaml($object_header + $object_content)
 
   file { "${kube_hard_way::params::config_dir}/kube-scheduler.yaml":
     ensure  => file,

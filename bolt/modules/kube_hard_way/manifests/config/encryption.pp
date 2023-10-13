@@ -49,7 +49,7 @@ class kube_hard_way::config::encryption (
     'kind'       => 'EncryptionConfig',
   }
 
-  $object_resources = {
+  $object_content = {
     'resources' => [
       {
         'resources' => ['secrets'],
@@ -70,7 +70,7 @@ class kube_hard_way::config::encryption (
     ],
   }
 
-  $object = to_yaml($object_header + $object_resources)
+  $object = to_yaml($object_header + $object_content)
 
   file { "${kube_hard_way::params::lib_dir}/encryption-config.yaml":
     ensure  => file,

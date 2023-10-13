@@ -12,6 +12,9 @@ class kube_hard_way::bootstrap::controller (
     '10.240.0.12',
   ],
 ) inherits kube_hard_way::params {
+  include kubeinstall
+  include kubeinstall::kubectl::binary
+
   class { 'kube_hard_way::bootstrap::kube_apiserver':
     server_name  => $server_name,
     etcd_servers => $etcd_servers,
