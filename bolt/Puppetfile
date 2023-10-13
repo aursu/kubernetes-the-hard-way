@@ -4,18 +4,26 @@
 # The following directive installs modules to the managed moduledir.
 moduledir '.modules'
 
+mod 'aursu/lsys_nginx', '0.47.0'
+mod 'nginx',
+  git: 'https://github.com/aursu/puppet-nginx.git',
+  ref: 'ff7249ff4a55a9109483e6ebac87274ea205efb6'
 mod 'tlsinfo',
   git: 'https://github.com/aursu/puppet-tlsinfo.git',
   ref: '843ceb39cf529c7a04eeaf01361a279ca9972474'
 mod 'kubeinstall',
   git: 'https://github.com/aursu/puppet-kubeinstall.git',
-  ref: 'e2e6fe159ddad9c6f926f22c5dd395c3ac20b756'
+  ref: '1fb4e817f3981d16e0dc728a7609f07bf9f010ee'
 mod 'etcd',
   git: 'https://github.com/aursu/puppet-etcd.git',
   ref: '19f9c5907482f1f515add6031611aeef919921db'
 mod 'aursu/puppet', '0.8.0'
 mod 'puppetlabs/stdlib', '8.6.0'
 mod 'aursu/bsys', '0.4.1'
+mod 'aursu/lsys_postgresql', '0.47.0'
+mod 'puppetlabs/puppet_agent', '4.15.0'
+mod 'puppetlabs/puppetdb', '7.13.0'
+mod 'puppet/r10k', '12.1.0'
 mod 'puppet/archive', '7.0.0'
 mod 'aursu/dockerinstall', '0.17.0'
 mod 'puppet/kmod', '4.0.1'
@@ -23,17 +31,11 @@ mod 'puppet/selinux', '3.4.1'
 mod 'puppetlabs/apt', '9.0.2'
 mod 'thias/sysctl', '1.0.7'
 mod 'puppet/systemd', '4.2.0'
-mod 'aursu/lsys_postgresql', '0.47.0'
-mod 'puppetlabs/puppet_agent', '4.15.0'
-mod 'puppetlabs/puppetdb', '7.13.0'
-mod 'puppetlabs/ruby_task_helper', '0.6.1'
-mod 'puppet/r10k', '12.1.0'
 mod 'puppetlabs/inifile', '5.4.1'
 mod 'puppetlabs/postgresql', '8.3.0'
 mod 'puppetlabs/firewall', '3.6.0'
 mod 'puppetlabs/vcsrepo', '6.1.0'
 mod 'choria/mcollective', '0.14.4'
-mod 'puppetlabs/facts', '1.4.0'
-mod 'aursu/lsys_nginx', '0.47.0'
-mod 'aursu/nginx', '4.4.2'
 mod 'puppetlabs/concat', '7.4.0'
+mod 'puppetlabs/facts', '1.4.0'
+mod 'puppetlabs/ruby_task_helper', '0.6.1'
