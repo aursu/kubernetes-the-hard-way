@@ -7,6 +7,7 @@ class Google::MetadataInternal < Google::HTTPClient
   def initialize
     super
     @hostname = nil
+    @pod_cidr = nil
   end
 
   def api_get(path)
@@ -19,6 +20,10 @@ class Google::MetadataInternal < Google::HTTPClient
 
   def hostname
     @hostname ||= api_get('instance/hostname')
+  end
+
+  def pod_cidr
+    @pod_cidr ||= api_get('instance/attributes/pod-cidr')
   end
 
   def dns_info

@@ -1,0 +1,6 @@
+{
+  "description": "Get instance attribute pod-cidr from GCP metadata",
+  "parameters": {},
+  "files": ["ruby_task_helper/files/task_helper.rb", "kube_hard_way/tasks/google/"],
+  "input_method": "stdin"
+}
