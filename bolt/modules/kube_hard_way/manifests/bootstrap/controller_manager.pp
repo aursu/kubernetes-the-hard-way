@@ -46,7 +46,6 @@
 #   include kube_hard_way::bootstrap::controller_manager
 class kube_hard_way::bootstrap::controller_manager (
   Stdlib::IP::Address $bind_address = '0.0.0.0',
-  Stdlib::IP::Address $cluster_cidr = '10.200.0.0/16',
   String $cluster_name = 'kubernetes',
   Stdlib::Unixpath $cluster_signing_cert_file = '/etc/kubernetes/pki/ca.pem',
   Stdlib::Unixpath $cluster_signing_key_file = '/etc/kubernetes/pki/ca-key.pem',
@@ -55,6 +54,7 @@ class kube_hard_way::bootstrap::controller_manager (
   Stdlib::Unixpath $service_account_signing_key_file = '/etc/kubernetes/pki/service-account-key.pem',
   Stdlib::Unixpath $service_account_private_key_file = $service_account_signing_key_file,
   Stdlib::IP::Address $service_cluster_ip_range = '10.32.0.0/24',
+  Stdlib::IP::Address $cluster_cidr = $kube_hard_way::params::cluster_cidr,
 ) inherits kube_hard_way::params {
   include bsys::systemctl::daemon_reload
 

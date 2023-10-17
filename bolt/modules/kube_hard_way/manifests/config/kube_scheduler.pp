@@ -7,9 +7,9 @@
 class kube_hard_way::config::kube_scheduler (
   Optional[Stdlib::Unixpath] $path = undef,
 ) {
+  include kubeinstall::params
   include kube_hard_way::params
   include kube_hard_way::setup
-  include kubeinstall::params
 
   $cert_dir = $path ? {
     Stdlib::Unixpath => $path,

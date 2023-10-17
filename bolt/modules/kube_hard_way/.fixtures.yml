@@ -3,6 +3,9 @@
 ---
 fixtures:
   forge_modules:
+    archive:
+      repo: "puppet/archive"
+      ref: "7.0.0"
     stdlib:
       repo: puppetlabs/stdlib
       ref: 9.3.0
@@ -21,13 +24,16 @@ fixtures:
     concat:
       repo: puppetlabs/concat
       ref: 9.0.0
+    mount_core:
+      repo: "puppetlabs/mount_core"
+      puppet_version: ">= 6.0.0"
   repositories:
     etcd:
       repo: https://github.com/aursu/puppet-etcd.git
       ref: "tags/v0.4.1"
     kubeinstall:
       repo: https://github.com/aursu/puppet-kubeinstall.git
-      ref: "tags/v0.28.0"
+      ref: "tags/v0.31.1"
     tlsinfo:
       repo: https://github.com/aursu/puppet-tlsinfo.git
       ref: "tags/v0.11.0"

@@ -1,0 +1,17 @@
+[Unit]
+Description=Kubernetes Kubelet
+Documentation=https://github.com/kubernetes/kubernetes
+After=containerd.service
+Requires=containerd.service
+
+[Service]
+Restart=on-failure
+RestartSec=5s
+ExecStart=/usr/local/bin/kubelet \
+    --config=/var/lib/kubelet/kubelet-config.yaml \
+    --container-runtime-endpoint=<%= @container_runtime_endpoint %> \
+    --kubeconfig=<%= @kubeconfig %> \
+    --v=2
+
+[Install]
+WantedBy=multi-user.target

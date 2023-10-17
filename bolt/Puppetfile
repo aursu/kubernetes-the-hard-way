@@ -13,7 +13,7 @@ mod 'tlsinfo',
   ref: '843ceb39cf529c7a04eeaf01361a279ca9972474'
 mod 'kubeinstall',
   git: 'https://github.com/aursu/puppet-kubeinstall.git',
-  ref: '1fb4e817f3981d16e0dc728a7609f07bf9f010ee'
+  ref: 'a9f42fda4e3b90fe4a127c4c7eda4036f87e7abc'
 mod 'etcd',
   git: 'https://github.com/aursu/puppet-etcd.git',
   ref: '19f9c5907482f1f515add6031611aeef919921db'
