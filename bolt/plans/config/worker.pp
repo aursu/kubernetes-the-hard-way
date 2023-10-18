@@ -28,7 +28,7 @@ plan kubernetes::config::worker (
       kube_hard_way::kubeconfig { $instance:
         auth_user    => "system:node:${instance}",
         server_name  => $public_address,
-        path         => $cert_dir,
+        cert_dir     => $cert_dir,
         cluster_name => 'kubernetes-the-hard-way',
       }
     }

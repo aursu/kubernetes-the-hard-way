@@ -31,7 +31,7 @@ plan kubernetes::certificate::worker (
 
     apply($main_controller) {
       kube_hard_way::certificates::kubelet { $target.name:
-        path        => $cert_dir,
+        cert_dir    => $cert_dir,
         hostname    => $target.facts['networking']['hostname'],
         internal_ip => $target.facts['networking']['ip'],
         external_ip => $gce_external_ip,

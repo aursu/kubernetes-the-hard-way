@@ -43,7 +43,7 @@ plan kube_hard_way::certificates::kubernetes_api (
       internal_ip      => $internal_ip,
       controller_nodes => $controller_nodes,
       public_address   => $public_address,
-      path             => $cert_dir,
+      cert_dir         => $cert_dir,
     }
   }
 }

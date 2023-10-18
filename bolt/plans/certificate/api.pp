@@ -15,17 +15,18 @@ plan kubernetes::certificate::api (
 
   $main_controller = get_targets($control_plain)[0]
   $rest_controllers = get_targets($controllers).filter |$target| { $target.name != $main_controller.name }
+
   $cert_dir = '/etc/kubernetes/pki'
 
   run_plan(facts, $main_controller)
 
   apply($main_controller) {
-    class { 'kube_hard_way::certificate_authority': path => $cert_dir, }
-    class { 'kube_hard_way::certificates::admin': path => $cert_dir, }
-    class { 'kube_hard_way::certificates::controller_manager': path => $cert_dir, }
-    class { 'kube_hard_way::certificates::kube_proxy': path => $cert_dir, }
-    class { 'kube_hard_way::certificates::kube_scheduler': path => $cert_dir, }
-    class { 'kube_hard_way::certificates::service_account': path => $cert_dir, }
+    class { 'kube_hard_way::certificate_authority': cert_dir => $cert_dir, }
+    class { 'kube_hard_way::certificates::admin': cert_dir => $cert_dir, }
+    class { 'kube_hard_way::certificates::controller_manager': cert_dir => $cert_dir, }
+    class { 'kube_hard_way::certificates::kube_proxy': cert_dir => $cert_dir, }
+    class { 'kube_hard_way::certificates::kube_scheduler': cert_dir => $cert_dir, }
+    class { 'kube_hard_way::certificates::service_account': cert_dir => $cert_dir, }
   }
 
   run_plan('kube_hard_way::certificates::kubernetes_api',
