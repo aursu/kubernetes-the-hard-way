@@ -9,3 +9,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 1.0.0
+
+**Features**
+
+* Implemented most of functionality from project `Kubernetes The Hard Way`
+
+**Bugfixes**
+
+**Known Issues**

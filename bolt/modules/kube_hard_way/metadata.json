@@ -1,10 +1,10 @@
 {
   "name": "aursu-kube_hard_way",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "author": "aursu",
-  "summary": "",
+  "summary": "Puppet helpers for Kubernetes The Hard Way",
   "license": "Apache-2.0",
-  "source": "",
+  "source": "https://github.com/aursu/kubernetes-the-hard-way",
   "dependencies": [
     {
       "name": "aursu/tlsinfo",
