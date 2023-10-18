@@ -44,6 +44,9 @@
 # @param tls_private_keyfile
 #   tlsPrivateKeyFile is the file containing x509 private key matching tlsCertFile.
 #
+# @param cgroup_driver
+#   cgroupDriver is the driver kubelet uses to manipulate CGroups on the host (cgroupfs or systemd). 
+#
 # @example
 #   include kube_hard_way::config::kubelet
 class kube_hard_way::config::kubelet (
@@ -57,6 +60,7 @@ class kube_hard_way::config::kubelet (
   Stdlib::Host $instance = $facts['networking']['hostname'],
   Stdlib::Unixpath $tls_cert_file = "${cert_dir}/${instance}.pem",
   Stdlib::Unixpath $tls_private_keyfile = "${cert_dir}/${instance}-key.pem",
+  Enum['cgroupfs', 'systemd'] $cgroup_driver = 'systemd',
 ) inherits kube_hard_way::params {
   include kubeinstall
   include kubeinstall::directory_structure
@@ -90,6 +94,7 @@ class kube_hard_way::config::kubelet (
     'tlsCertFile'           => $tls_cert_file,
     'tlsPrivateKeyFile'     => $tls_private_keyfile,
     'registerNode'          => true,
+    'cgroupDriver'          => $cgroup_driver,
   }
 
   $object = to_yaml($object_header + $object_content)

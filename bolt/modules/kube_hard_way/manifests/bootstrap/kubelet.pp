@@ -31,5 +31,5 @@ class kube_hard_way::bootstrap::kubelet (
   }
 
   Class['kubeinstall::component::kubelet'] -> Service['kubelet']
-  Class['kube_hard_way::config::kubelet'] -> Service['kubelet']
+  Class['kube_hard_way::config::kubelet'] ~> Service['kubelet']
 }
