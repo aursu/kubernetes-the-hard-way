@@ -1,10 +1,6 @@
 # kube_hard_way
 
-Welcome to your new module. A short overview of the generated parts can be found
-in the [PDK documentation][1].
-
-The README template below provides a starting point with details about what
-information to include in your README.
+Proceed [Kubernetes The Hard Way](https://github.com/kelseyhightower/kubernetes-the-hard-way) using [Puppet Bolt](https://www.puppet.com/community/open-source/bolt)
 
 ## Table of Contents
 
@@ -19,11 +15,7 @@ information to include in your README.
 
 ## Description
 
-Briefly tell users why they might want to use your module. Explain what your
-module does and what kind of problems users can solve with it.
-
-This should be a fairly short description helps the user decide if your module
-is what they want.
+Puppet module to help to bootstrap Kubernetes cluster described in project [Kubernetes The Hard Way](https://github.com/kelseyhightower/kubernetes-the-hard-way) using [Puppet](https://www.puppet.com/community/open-source) and [Puppet Bolt](https://www.puppet.com/community/open-source/bolt)
 
 ## Setup
 
