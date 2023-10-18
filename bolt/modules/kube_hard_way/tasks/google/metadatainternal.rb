@@ -24,6 +24,10 @@ class Google::MetadataInternal < Google::HTTPClient
 
   def pod_cidr
     @pod_cidr ||= api_get('instance/attributes/pod-cidr')
+
+    return nil if @pod_cidr.nil?
+
+    { 'pod_cidr' => @pod_cidr }
   end
 
   def dns_info
