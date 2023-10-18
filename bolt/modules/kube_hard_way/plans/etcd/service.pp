@@ -9,8 +9,10 @@ plan kube_hard_way::etcd::service (
   Optional[String] $initial_cluster = undef,
 ) {
   run_plan('etcd::service', $targets,
-    server_crt => $server_crt, server_key => $server_key,
-    peer_crt => $peer_crt, peer_key => $peer_key,
+    server_crt => $server_crt,
+    server_key => $server_key,
+    peer_crt => $peer_crt,
+    peer_key => $peer_key,
     ca_crt => $ca_crt,
   initial_cluster_token => $initial_cluster_token)
 
