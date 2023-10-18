@@ -33,7 +33,7 @@ fixtures:
       ref: "tags/v0.4.1"
     kubeinstall:
       repo: https://github.com/aursu/puppet-kubeinstall.git
-      ref: "tags/v0.31.1"
+      ref: "tags/v0.32.0"
     tlsinfo:
       repo: https://github.com/aursu/puppet-tlsinfo.git
       ref: "tags/v0.11.0"
