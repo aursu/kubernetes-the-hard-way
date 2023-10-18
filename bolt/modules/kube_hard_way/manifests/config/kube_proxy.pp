@@ -20,8 +20,6 @@
 #   include kube_hard_way::config::kube_proxy
 class kube_hard_way::config::kube_proxy (
   Stdlib::Unixpath $cert_dir = $kube_hard_way::params::cert_dir,
-  Stdlib::Host $instance = $facts['networking']['hostname'],
-  Stdlib::Unixpath $kubeconfig = "${cert_dir}/${instance}.kubeconfig",
   Enum['iptables', 'ipvs'] $proxy_mode = 'iptables',
   Stdlib::IP::Address $cluster_cidr = $kube_hard_way::params::cluster_cidr,
 ) inherits kube_hard_way::params {
@@ -35,7 +33,7 @@ class kube_hard_way::config::kube_proxy (
 
   $object_content = {
     'clientConnection' => {
-      'kubeconfig' => $kubeconfig,
+      'kubeconfig' => "${cert_dir}/kube-proxy.kubeconfig",
     },
     'mode' => $proxy_mode,
     'clusterCIDR' => $cluster_cidr,
