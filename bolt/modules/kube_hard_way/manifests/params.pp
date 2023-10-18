@@ -18,4 +18,6 @@ class kube_hard_way::params {
 
   # default cluster CIDR
   $cluster_cidr = '10.200.0.0/16'
+
+  $dns_addr = '10.32.0.10'
 }
