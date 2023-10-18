@@ -24,5 +24,5 @@ class kube_hard_way::bootstrap::kube_proxy {
   }
 
   Class['kubeinstall::component::kube_proxy'] -> Service['kube-proxy']
-  Class['kube_hard_way::config::kube_proxy'] -> Service['kube-proxy']
+  Class['kube_hard_way::config::kube_proxy'] ~> Service['kube-proxy']
 }

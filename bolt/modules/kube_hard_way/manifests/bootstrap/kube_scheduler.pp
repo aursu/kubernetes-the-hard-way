@@ -27,5 +27,5 @@ class kube_hard_way::bootstrap::kube_scheduler (
   }
 
   Class['kubeinstall::component::kube_scheduler'] -> Service['kube-scheduler']
-  Class['kube_hard_way::config::kube_scheduler'] -> Service['kube-scheduler']
+  Class['kube_hard_way::config::kube_scheduler'] ~> Service['kube-scheduler']
 }
