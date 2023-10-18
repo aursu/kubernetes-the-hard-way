@@ -17,7 +17,7 @@ define kube_hard_way::kubeconfig (
   include kubeinstall
   include kubeinstall::params
   include kube_hard_way::tools::yq
-  include kubeinstall::kubectl::binary
+  include kubeinstall::component::kubectl
 
   $cert_dir_defined = $cert_dir ? {
     Stdlib::Unixpath => $cert_dir,
@@ -36,7 +36,7 @@ define kube_hard_way::kubeconfig (
     default:
       path    => '/usr/local/bin:/usr/bin:/bin',
       cwd     => $cert_dir_defined,
-      require => Class['kubeinstall::kubectl::binary'],
+      require => Class['kubeinstall::component::kubectl'],
       ;
     "kubectl config set-cluster ${cluster_name} ${config_option}":
       command => "kubectl config set-cluster ${cluster_name} ${ca_option} --embed-certs=true  ${server_option} ${config_option}",

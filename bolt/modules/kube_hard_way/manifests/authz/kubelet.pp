@@ -79,14 +79,14 @@ class kube_hard_way::authz::kubelet (
   }
 
   if $apply {
-    include kubeinstall::kubectl::binary
+    include kubeinstall::component::kubectl
 
     kubeinstall::kubectl::apply { "clusterroles/${object_name}.yaml":
       kind       => 'ClusterRole',
       resource   => $object_name,
       kubeconfig => $kubeconfig,
       subscribe  => File["clusterroles/${object_name}.yaml"],
-      require    => Class['kubeinstall::kubectl::binary'],
+      require    => Class['kubeinstall::component::kubectl'],
     }
   }
 }

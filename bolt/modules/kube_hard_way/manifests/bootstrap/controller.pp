@@ -13,7 +13,7 @@ class kube_hard_way::bootstrap::controller (
   ],
 ) inherits kube_hard_way::params {
   include kubeinstall
-  include kubeinstall::kubectl::binary
+  include kubeinstall::component::kubectl
 
   class { 'kube_hard_way::bootstrap::kube_apiserver':
     server_name  => $server_name,
