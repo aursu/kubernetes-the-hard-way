@@ -24,6 +24,12 @@ class kube_hard_way::bootstrap::kubelet (
     notify  => Class['bsys::systemctl::daemon_reload'],
   }
 
-  Class['kubeinstall::component::kubelet'] -> File['/etc/systemd/system/kubelet.service']
-  Class['kube_hard_way::config::kubelet'] -> File['/etc/systemd/system/kubelet.service']
+  service { 'kubelet':
+    ensure  => running,
+    enable  => true,
+    require => File['/etc/systemd/system/kubelet.service'],
+  }
+
+  Class['kubeinstall::component::kubelet'] -> Service['kubelet']
+  Class['kube_hard_way::config::kubelet'] -> Service['kubelet']
 }

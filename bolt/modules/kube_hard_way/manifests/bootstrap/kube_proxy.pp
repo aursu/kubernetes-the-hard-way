@@ -17,6 +17,12 @@ class kube_hard_way::bootstrap::kube_proxy {
     notify  => Class['bsys::systemctl::daemon_reload'],
   }
 
-  Class['kubeinstall::component::kube_proxy'] -> File['/etc/systemd/system/kube-proxy.service']
-  Class['kube_hard_way::config::kube_proxy'] -> File['/etc/systemd/system/kube-proxy.service']
+  service { 'kube-proxy':
+    ensure  => running,
+    enable  => true,
+    require => File['/etc/systemd/system/kube-proxy.service'],
+  }
+
+  Class['kubeinstall::component::kube_proxy'] -> Service['kube-proxy']
+  Class['kube_hard_way::config::kube_proxy'] -> Service['kube-proxy']
 }
