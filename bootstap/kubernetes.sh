@@ -11,3 +11,8 @@ bolt plan run kubernetes::config::worker
 bolt plan run kubernetes::config::enc
 
 bolt plan run kubernetes::bootstrap::etcd
+
+bolt plan run kubernetes::bootstrap::control_plain
+bolt plan run kubernetes::bootstrap::worker
+
+bolt plan run kubernetes::bootstrap::components
