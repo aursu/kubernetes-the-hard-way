@@ -23,8 +23,8 @@ gcloud compute addresses create kubernetes-the-hard-way \
 
 gcloud compute addresses list --filter="name=('kubernetes-the-hard-way')"
 
-./gce-kubernetes-controllers.sh
-./gce-kubernetes-workers.sh
+./gcloud-kubernetes-controllers.sh
+./gcloud-kubernetes-workers.sh
 
 gcloud compute instances list --filter="tags.items=kubernetes-the-hard-way"
 
@@ -54,4 +54,4 @@ gcloud compute forwarding-rules create kubernetes-forwarding-rule \
     --region $(gcloud config get-value compute/region) \
     --target-pool kubernetes-target-pool
 
-./gce-routes.sh
+./gcloud-routes.sh
