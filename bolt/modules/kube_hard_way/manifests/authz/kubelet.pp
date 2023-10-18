@@ -14,17 +14,13 @@ class kube_hard_way::authz::kubelet (
   Kubeinstall::DNSName $object_name = 'kube-apiserver-to-kubelet',
   Kubeinstall::Metadata $metadata = {},
   Boolean $apply = true,
-  Optional[Stdlib::Unixpath] $kubeconfig = undef,
-) {
+  Stdlib::Unixpath $cert_dir = $kube_hard_way::params::cert_dir,
+  Optional[Stdlib::Unixpath] $kubeconfig = "${cert_dir}/admin.kubeconfig",
+) inherits kube_hard_way::params {
   include kubeinstall::params
   include kube_hard_way::params
   include kubeinstall
   include kubeinstall::directory_structure
-
-  $config = $kubeconfig ? {
-    Stdlib::Unixpath => $kubeconfig,
-    default          => "${kubeinstall::params::cert_dir}/admin.kubeconfig",
-  }
 
   $annotations = $metadata['annotations'] ? {
     Hash    => $metadata['annotations'],
@@ -88,7 +84,7 @@ class kube_hard_way::authz::kubelet (
     kubeinstall::kubectl::apply { "clusterroles/${object_name}.yaml":
       kind       => 'ClusterRole',
       resource   => $object_name,
-      kubeconfig => $config,
+      kubeconfig => $kubeconfig,
       subscribe  => File["clusterroles/${object_name}.yaml"],
       require    => Class['kubeinstall::kubectl::binary'],
     }

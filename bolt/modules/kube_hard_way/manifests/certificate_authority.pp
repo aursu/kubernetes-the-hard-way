@@ -5,17 +5,12 @@
 # @example
 #   include kube_hard_way::certificate_authority
 class kube_hard_way::certificate_authority (
-  Optional[Stdlib::Unixpath] $path = undef,
-) {
+  Stdlib::Unixpath $cert_dir = $kube_hard_way::params::cert_dir,
+) inherits kube_hard_way::params {
   include tlsinfo
   include kubeinstall::params
   include kubeinstall
   include kubeinstall::directory_structure
-
-  $cert_dir = $path ? {
-    Stdlib::Unixpath => $path,
-    default          => $kubeinstall::params::cert_dir,
-  }
 
   tlsinfo::cfssl::ca_config { 'ca-config':
     path             => $cert_dir,

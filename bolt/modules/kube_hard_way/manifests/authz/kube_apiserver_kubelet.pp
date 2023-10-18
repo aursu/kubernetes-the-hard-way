@@ -8,16 +8,12 @@ class kube_hard_way::authz::kube_apiserver_kubelet (
   Kubeinstall::DNSName $object_name = 'kube-apiserver',
   Kubeinstall::Metadata $metadata = {},
   Boolean $apply = true,
-  Optional[Stdlib::Unixpath] $kubeconfig = undef,
-) {
+  Stdlib::Unixpath $cert_dir = $kube_hard_way::params::cert_dir,
+  Optional[Stdlib::Unixpath] $kubeconfig = "${cert_dir}/admin.kubeconfig",
+) inherits kube_hard_way::params {
   include kubeinstall::params
   include kube_hard_way::params
   include kube_hard_way::authz::kubelet
-
-  $config = $kubeconfig ? {
-    Stdlib::Unixpath => $kubeconfig,
-    default          => "${kubeinstall::params::cert_dir}/admin.kubeconfig",
-  }
 
   $authz_kubelet_object_name = $kube_hard_way::authz::kubelet::object_name
 
@@ -67,7 +63,7 @@ class kube_hard_way::authz::kube_apiserver_kubelet (
     kubeinstall::kubectl::apply { "clusterrolebindings/${object_name}.yaml":
       kind       => 'ClusterRoleBinding',
       resource   => $object_name,
-      kubeconfig => $config,
+      kubeconfig => $kubeconfig,
       subscribe  => File["clusterrolebindings/${object_name}.yaml"],
       require    => Class['kubeinstall::kubectl::binary'],
     }

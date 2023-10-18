@@ -2,21 +2,16 @@
 #
 # A description of what this class does
 #
-# @param path
+# @param cert_dir
 #   Path to directory with certificates for Kubernetes
 #
 # @example
 #   include kube_hard_way::bootstrap::health_checks
 class kube_hard_way::bootstrap::health_checks (
-  Optional[Stdlib::Unixpath] $path = undef,
-) {
+  Stdlib::Unixpath $cert_dir = $kube_hard_way::params::cert_dir,
+) inherits kube_hard_way::params {
   include lsys_nginx
   include kubeinstall::params
-
-  $cert_dir = $path ? {
-    Stdlib::Unixpath => $path,
-    default          => $kubeinstall::params::cert_dir,
-  }
 
   nginx::resource::server { 'kubernetes.default.svc.cluster.local':
     listen_port => 80,

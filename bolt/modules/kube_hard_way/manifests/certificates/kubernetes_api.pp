@@ -12,16 +12,11 @@ class kube_hard_way::certificates::kubernetes_api (
     '10.240.0.12',
   ],
   Optional[Stdlib::Host] $public_address = undef,
-  Optional[Stdlib::Unixpath] $path = undef,
-) {
+  Stdlib::Unixpath $cert_dir = $kube_hard_way::params::cert_dir,
+) inherits kube_hard_way::params {
   include tlsinfo
   include kubeinstall::params
   include kube_hard_way::certificate_authority
-
-  $cert_dir = $path ? {
-    Stdlib::Unixpath => $path,
-    default          => $kubeinstall::params::cert_dir,
-  }
 
   $public_address_option = $public_address ? {
     Stdlib::Host => [$public_address],

@@ -6,16 +6,16 @@
 #   kube_hard_way::certificates::kubelet { 'namevar': }
 define kube_hard_way::certificates::kubelet (
   Stdlib::Host $instance = $name,
-  Optional[Stdlib::Unixpath] $path = undef,
+  Optional[Stdlib::Unixpath] $cert_dir = undef,
   Stdlib::Host $hostname = $facts['networking']['hostname'],
   Stdlib::IP::Address $internal_ip = $facts['networking']['ip'],
   Optional[Stdlib::IP::Address] $external_ip = undef,
 ) {
   if $facts['gce'] {
     $gce_instance       = $facts['gce']['instance']
-    # $hostname           = $gce_instance['name']
+
     $network_interfaces = $gce_instance['networkInterfaces']
-    # $internal_ip        = $network_interfaces[0]['ip']
+
     $access_configs     = $network_interfaces[0]['accessConfigs']
     $gce_external_ip    = $access_configs[0]['externalIp']
   }
@@ -27,8 +27,8 @@ define kube_hard_way::certificates::kubelet (
   include kubeinstall::params
   include kube_hard_way::certificate_authority
 
-  $cert_dir = $path ? {
-    Stdlib::Unixpath => $path,
+  $cert_dir_defined = $cert_dir ? {
+    Stdlib::Unixpath => $cert_dir,
     default          => $kubeinstall::params::cert_dir,
   }
 
@@ -46,14 +46,14 @@ define kube_hard_way::certificates::kubelet (
   }
 
   tlsinfo::cfssl::crt_req { "${instance}-csr":
-    path                   => $cert_dir,
+    path                   => $cert_dir_defined,
     common_name            => "system:node:${hostname}",
     name_organisation      => 'system:nodes',
     name_organisation_unit => 'Kubernetes',
   }
 
   tlsinfo::cfssl::gencert { $instance:
-    path     => $cert_dir,
+    path     => $cert_dir_defined,
     config   => 'ca-config.json',
     profile  => 'kubernetes',
     hostname => $instance_option + [$hostname, $internal_ip] + $external_ip_option,

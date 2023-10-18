@@ -12,15 +12,15 @@ define kube_hard_way::kubeconfig (
   String $certificate_authority = 'ca.pem',
   String $client_certificate = "${name}.pem",
   String $client_key = "${name}-key.pem",
-  Optional[Stdlib::Unixpath] $path = undef,
+  Optional[Stdlib::Unixpath] $cert_dir = undef,
 ) {
   include kubeinstall
   include kubeinstall::params
   include kube_hard_way::tools::yq
   include kubeinstall::kubectl::binary
 
-  $cert_dir = $path ? {
-    Stdlib::Unixpath => $path,
+  $cert_dir_defined = $cert_dir ? {
+    Stdlib::Unixpath => $cert_dir,
     default          => $kubeinstall::params::cert_dir,
   }
 
@@ -35,7 +35,7 @@ define kube_hard_way::kubeconfig (
   exec {
     default:
       path    => '/usr/local/bin:/usr/bin:/bin',
-      cwd     => $cert_dir,
+      cwd     => $cert_dir_defined,
       require => Class['kubeinstall::kubectl::binary'],
       ;
     "kubectl config set-cluster ${cluster_name} ${config_option}":

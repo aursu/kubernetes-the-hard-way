@@ -5,16 +5,11 @@
 # @example
 #   include kube_hard_way::config::kube_scheduler
 class kube_hard_way::config::kube_scheduler (
-  Optional[Stdlib::Unixpath] $path = undef,
-) {
+  Stdlib::Unixpath $cert_dir = $kube_hard_way::params::cert_dir,
+) inherits kube_hard_way::params {
   include kubeinstall::params
   include kube_hard_way::params
   include kube_hard_way::setup
-
-  $cert_dir = $path ? {
-    Stdlib::Unixpath => $path,
-    default => $kubeinstall::params::cert_dir,
-  }
 
   $object_header  = {
     'apiVersion' => 'kubescheduler.config.k8s.io/v1',
