@@ -15,95 +15,107 @@ Proceed [Kubernetes The Hard Way](https://github.com/kelseyhightower/kubernetes-
 
 ## Description
 
-Puppet module to help to bootstrap Kubernetes cluster described in project [Kubernetes The Hard Way](https://github.com/kelseyhightower/kubernetes-the-hard-way) using [Puppet](https://www.puppet.com/community/open-source) and [Puppet Bolt](https://www.puppet.com/community/open-source/bolt)
+Puppet module to help to bootstrap Kubernetes cluster described in tutorial
+[Kubernetes The Hard Way](https://github.com/kelseyhightower/kubernetes-the-hard-way)
+using [Puppet](https://www.puppet.com/community/open-source) and
+[Puppet Bolt](https://www.puppet.com/community/open-source/bolt)
 
 ## Setup
 
 ### What kube_hard_way affects **OPTIONAL**
 
-If it's obvious what your module touches, you can skip this section. For
-example, folks can probably figure out that your mysql_instance module affects
-their MySQL instances.
+The Bolt project root is located inside `bolt` directory. File
+`bolt/inventory.yaml` must be updated with proper IP adresses for Kubernetes
+hosts.
 
-If there's more that they should know about, though, this is the place to
-mention:
+Therefore before proceeding with Bolt related steps infrastructure must be
+provisioned first according to
+[Prerequisites](https://github.com/kelseyhightower/kubernetes-the-hard-way/blob/master/docs/01-prerequisites.md#prerequisites) and
+[Provisioning Compute Resources](https://github.com/kelseyhightower/kubernetes-the-hard-way/blob/master/docs/03-compute-resources.md#provisioning-compute-resources).
 
-* Files, packages, services, or operations that the module will alter, impact,
-  or execute.
-* Dependencies that your module automatically installs.
-* Warnings or other important notices.
+All IP addresses are available via command below (output field `EXTERNAL_IP`):
+
+```
+gcloud compute instances list --filter="tags.items=kubernetes-the-hard-way"
+```
+
+SSH private key is required to be set into file `keys/google_compute_engine.pem`
+in order to access Kubernetes nodes via Bolt.
+
+The bootstrap process relies on
+[Bolt plans written in the Puppet language](https://www.puppet.com/docs/bolt/latest/writing_plans.html). Therefore Puppet agent is required on all Kubernetes nodes:
+
+```
+bolt plan run puppet::agent::install targets=kubernetes
+```
 
 ### Setup Requirements **OPTIONAL**
 
-If your module requires anything extra before setting up (pluginsync enabled,
-another module, etc.), mention it here.
+To generate proper SSH keys for both `gcloud` and Puppet Bolt use next command:
 
-If your most recent release breaks compatibility or requires particular steps
-for upgrading, you might want to include an additional "Upgrading" section here.
+```
+ssh-keygen -t ed25519 -f ~/.ssh/google_compute_engine -C "gcloud"
+```
+
+and afterwards copy it into `keys/google_compute_engine.pem`:
+
+```
+cp -a ~/.ssh/google_compute_engine keys/google_compute_engine.pem
+```
 
 ### Beginning with kube_hard_way
 
-The very basic steps needed for a user to get the module up and running. This
-can include setup steps, if necessary, or it can be an example of the most basic
-use of the module.
-
 ## Usage
 
-Include usage examples for common use cases in the **Usage** section. Show your
-users how to use your module to solve problems, and be sure to include code
-examples. Include three to five examples of the most important or common tasks a
-user can accomplish with your module. Show users how to accomplish more complex
-tasks that involve different types, classes, and functions working in tandem.
-
-## Reference
-
-This section is deprecated. Instead, add reference information to your code as
-Puppet Strings comments, and then use Strings to generate a REFERENCE.md in your
-module. For details on how to add code comments and generate documentation with
-Strings, see the [Puppet Strings documentation][2] and [style guide][3].
-
-If you aren't ready to use Strings yet, manually create a REFERENCE.md in the
-root of your module directory and list out each of your module's classes,
-defined types, facts, functions, Puppet tasks, task plans, and resource types
-and providers, along with the parameters for each.
-
-For each element (class, defined type, function, and so on), list:
-
-* The data type, if applicable.
-* A description of what the element does.
-* Valid values, if the data type doesn't make it obvious.
-* Default value, if any.
-
-For example:
+Step [Provisioning a CA and Generating TLS Certificates](https://github.com/kelseyhightower/kubernetes-the-hard-way/blob/master/docs/04-certificate-authority.md#provisioning-a-ca-and-generating-tls-certificates) is implemented via commands:
 
 ```
-### `pet::cat`
+bolt plan run kubernetes::certificate::api
+bolt plan run kubernetes::certificate::worker
+```
 
-#### Parameters
+Step [Generating Kubernetes Configuration Files for Authentication](https://github.com/kelseyhightower/kubernetes-the-hard-way/blob/master/docs/05-kubernetes-configuration-files.md#generating-kubernetes-configuration-files-for-authentication) is implemented via commands:
 
-##### `meow`
+```
+bolt plan run kubernetes::config::api
+bolt plan run kubernetes::config::worker
+```
 
-Enables vocalization in your cat. Valid options: 'string'.
+Step [Generating the Data Encryption Config and Key](https://github.com/kelseyhightower/kubernetes-the-hard-way/blob/master/docs/06-data-encryption-keys.md#generating-the-data-encryption-config-and-key) covered by command:
 
-Default: 'medium-loud'.
+```
+bolt plan run kubernetes::config::enc
+```
+
+Step [Bootstrapping the etcd Cluster](https://github.com/kelseyhightower/kubernetes-the-hard-way/blob/master/docs/07-bootstrapping-etcd.md#bootstrapping-the-etcd-cluster) could be done by command:
+
+```
+bolt plan run kubernetes::bootstrap::etcd
+```
+
+Next step [Bootstrapping the Kubernetes Control Plane](https://github.com/kelseyhightower/kubernetes-the-hard-way/blob/master/docs/08-bootstrapping-kubernetes-controllers.md#bootstrapping-the-kubernetes-control-plane) will be completed after commands' run:
+
+```
+bolt plan run kubernetes::bootstrap::control_plain
+```
+
+But it is still necessary to proceed with task [Provision a Network Load Balancer](https://github.com/kelseyhightower/kubernetes-the-hard-way/blob/master/docs/08-bootstrapping-kubernetes-controllers.md#provision-a-network-load-balancer) manually
+
+
+The step [Bootstrapping the Kubernetes Worker Nodes](https://github.com/kelseyhightower/kubernetes-the-hard-way/blob/master/docs/09-bootstrapping-kubernetes-workers.md#bootstrapping-the-kubernetes-worker-nodes) has implementation within Bolt plan `kubernetes::bootstrap::worker`:
+
+```
+bolt plan run kubernetes::bootstrap::worker
+```
+
+[Provisioning Pod Network Routes](https://github.com/kelseyhightower/kubernetes-the-hard-way/blob/master/docs/11-pod-network-routes.md#provisioning-pod-network-routes) is manual step related to GCP routes setup.
+
+And final step [Deploying the DNS Cluster Add-on](https://github.com/kelseyhightower/kubernetes-the-hard-way/blob/master/docs/12-dns-addon.md#deploying-the-dns-cluster-add-on) is implemented via next command:
+
+```
+bolt plan run kubernetes::bootstrap::components
 ```
 
 ## Limitations
 
-In the Limitations section, list any incompatibilities, known issues, or other
-warnings.
-
-## Development
-
-In the Development section, tell other users the ground rules for contributing
-to your project and how they should submit their work.
-
-## Release Notes/Contributors/Etc. **Optional**
-
-If you aren't using changelog, put your release notes here (though you should
-consider using changelog). You can also add any additional sections you feel are
-necessary or important to include here. Please use the `##` header.
-
-[1]: https://puppet.com/docs/pdk/latest/pdk_generating_modules.html
-[2]: https://puppet.com/docs/puppet/latest/puppet_strings.html
-[3]: https://puppet.com/docs/puppet/latest/puppet_strings_style.html
+All steps related to GCP provisioning are manual.
