@@ -12,7 +12,7 @@
     },
     {
       "name": "aursu/kubeinstall",
-      "version_requirement": ">= 0.32.0 < 1.0.0"
+      "version_requirement": ">= 0.32.1 < 1.0.0"
     },
     {
       "name": "aursu/etcd",

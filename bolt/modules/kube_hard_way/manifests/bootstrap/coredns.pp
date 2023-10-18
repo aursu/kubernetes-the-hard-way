@@ -18,8 +18,9 @@ class kube_hard_way::bootstrap::coredns (
   }
 
   kubeinstall::helm::chart { 'coredns/coredns':
-    release_name => 'coredns',
-    namespace    => 'kube-system',
-    kubeconfig   => $kubeconfig,
+    release_name      => 'coredns',
+    namespace         => 'kube-system',
+    default_namespace => true,
+    kubeconfig        => $kubeconfig,
   }
 }
