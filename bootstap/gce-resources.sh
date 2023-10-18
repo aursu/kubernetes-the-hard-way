@@ -42,6 +42,8 @@ gcloud compute firewall-rules create kubernetes-the-hard-way-allow-health-check 
 # https://cloud.google.com/load-balancing/docs/target-pools
 gcloud compute target-pools create kubernetes-target-pool \
     --http-health-check kubernetes
+gcloud compute target-pools add-instances kubernetes-target-pool \
+    --instances controller-0,controller-1,controller-2
 # https://cloud.google.com/load-balancing/docs/forwarding-rule-concepts
 KUBERNETES_PUBLIC_ADDRESS=$(gcloud compute addresses describe kubernetes-the-hard-way \
     --region $(gcloud config get-value compute/region) \
