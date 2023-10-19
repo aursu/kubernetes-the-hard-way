@@ -18,5 +18,10 @@ plan kube_hard_way::etcd::service (
 
   apply($targets) {
     include etcd::service
+
+    file { '/etc/etcd': ensure => directory }
+    file { '/etc/etcd/ca.pem': source => "file://${ca_crt}" }
+    file { '/etc/etcd/kubernetes.pem': source => "file://${server_crt}" }
+    file { '/etc/etcd/kubernetes-key.pem': source => "file://${server_key}" }
   }
 }
