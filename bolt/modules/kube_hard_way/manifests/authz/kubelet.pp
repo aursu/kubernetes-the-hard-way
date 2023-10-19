@@ -52,6 +52,9 @@ class kube_hard_way::authz::kubelet (
     },
   }
 
+  # kubectl exec -ti busybox -- nslookup kubernetes
+  # error: unable to upgrade connection: Forbidden (user=kubernetes, verb=create, resource=nodes, subresource=proxy)
+
   $object_content = {
     'rules' => [
       {
