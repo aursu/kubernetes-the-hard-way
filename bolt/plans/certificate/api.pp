@@ -1,22 +1,21 @@
 plan kubernetes::certificate::api (
-  TargetSpec $control_plain = 'controller-0',
-  TargetSpec $controllers = 'controllers',
-  Stdlib::Host $internal_ip = '10.32.0.1',
-  Array[Stdlib::Host] $controller_nodes = [
+  TargetSpec          $control_plain      = 'controller-0',
+  TargetSpec          $controllers        = 'controllers',
+  Stdlib::Host        $internal_ip        = '10.32.0.1',
+  Array[Stdlib::Host] $controller_nodes   = [
     '10.240.0.10',
     '10.240.0.11',
     '10.240.0.12',
   ],
-  String $gce_public_address = 'kubernetes-the-hard-way',
+  String              $gce_public_address = 'kubernetes-the-hard-way',
 ) {
   unless get_targets($control_plain).size == 1 {
     fail("Must specify a single control plane, not ${control_plain}")
   }
 
-  $main_controller = get_targets($control_plain)[0]
+  $main_controller  = get_targets($control_plain)[0]
   $rest_controllers = get_targets($controllers).filter |$target| { $target.name != $main_controller.name }
-
-  $cert_dir = '/etc/kubernetes/pki'
+  $cert_dir         = '/etc/kubernetes/pki'
 
   run_plan(facts, $main_controller)
 
@@ -29,7 +28,7 @@ plan kubernetes::certificate::api (
     class { 'kube_hard_way::certificates::service_account': cert_dir => $cert_dir, }
   }
 
-  run_plan('kube_hard_way::certificates::kubernetes_api',
+  run_plan( 'kube_hard_way::certificates::kubernetes_api',
     control_plain      => $main_controller.name,
     internal_ip        => $internal_ip,
     controller_nodes   => $controller_nodes,

@@ -1,6 +1,6 @@
 plan kubernetes::certificate::worker (
   TargetSpec $control_plain = 'controller-0',
-  TargetSpec $targets = 'workers',
+  TargetSpec $targets       = 'workers',
 ) {
   unless get_targets($control_plain).size == 1 {
     fail("Must specify a single control plane, not ${control_plain}")

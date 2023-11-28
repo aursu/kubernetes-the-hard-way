@@ -5,22 +5,20 @@
 # @example
 #   kube_hard_way::certificates::kubelet { 'namevar': }
 define kube_hard_way::certificates::kubelet (
-  Stdlib::Host $instance = $name,
-  Optional[Stdlib::Unixpath] $cert_dir = undef,
-  Stdlib::Host $hostname = $facts['networking']['hostname'],
-  Stdlib::IP::Address $internal_ip = $facts['networking']['ip'],
+  Stdlib::Host                  $instance    = $name,
+  Optional[Stdlib::Unixpath]    $cert_dir    = undef,
+  Stdlib::Host                  $hostname    = $facts['networking']['hostname'],
+  Stdlib::IP::Address           $internal_ip = $facts['networking']['ip'],
   Optional[Stdlib::IP::Address] $external_ip = undef,
 ) {
   if $facts['gce'] {
     $gce_instance       = $facts['gce']['instance']
-
     $network_interfaces = $gce_instance['networkInterfaces']
-
     $access_configs     = $network_interfaces[0]['accessConfigs']
     $gce_external_ip    = $access_configs[0]['externalIp']
   }
   else {
-    $gce_external_ip = undef
+    $gce_external_ip    = undef
   }
 
   include tlsinfo
