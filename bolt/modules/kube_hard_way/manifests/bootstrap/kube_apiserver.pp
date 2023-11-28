@@ -66,6 +66,7 @@
 #   include kube_hard_way::bootstrap::controller
 class kube_hard_way::bootstrap::kube_apiserver (
   Stdlib::Host $server_name,
+  Kubeinstall::VersionPrefix $kubernetes_version,
   Stdlib::IP::Address $advertise_address = $facts['networking']['ip'],
   Boolean $allow_privileged = true,
   Stdlib::IP::Address $bind_address = '0.0.0.0',
@@ -92,7 +93,10 @@ class kube_hard_way::bootstrap::kube_apiserver (
 
   include kube_hard_way::setup
   include kubeinstall
-  include kubeinstall::component::kube_apiserver
+
+  class { 'kubeinstall::component::kube_apiserver':
+    kubernetes_version => $kubernetes_version,
+  }
 
   $etcd_servers_string = $etcd_servers.reduce([]) |$memo, $server| {
     $memo + ["https://${server}:2379"]

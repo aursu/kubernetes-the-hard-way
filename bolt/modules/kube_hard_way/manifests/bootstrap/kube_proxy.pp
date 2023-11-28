@@ -4,12 +4,17 @@
 #
 # @example
 #   include kube_hard_way::bootstrap::kube_proxy
-class kube_hard_way::bootstrap::kube_proxy {
+class kube_hard_way::bootstrap::kube_proxy (
+  Kubeinstall::VersionPrefix $kubernetes_version,
+) {
   include bsys::systemctl::daemon_reload
 
   include kubeinstall
-  include kubeinstall::component::kube_proxy
   include kube_hard_way::config::kube_proxy
+
+  class { 'kubeinstall::component::kube_proxy':
+    kubernetes_version => $kubernetes_version,
+  }
 
   file { '/etc/systemd/system/kube-proxy.service':
     ensure  => file,

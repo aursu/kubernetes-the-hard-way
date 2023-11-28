@@ -11,15 +11,23 @@ class kube_hard_way::bootstrap::controller (
     '10.240.0.11',
     '10.240.0.12',
   ],
-) inherits kube_hard_way::params {
+) inherits kube_hard_way::global {
   include kubeinstall
   include kubeinstall::component::kubectl
 
+  $kubernetes_version = $kube_hard_way::global::kubernetes_version
+
   class { 'kube_hard_way::bootstrap::kube_apiserver':
-    server_name  => $server_name,
-    etcd_servers => $etcd_servers,
+    kubernetes_version => $kubernetes_version,
+    server_name        => $server_name,
+    etcd_servers       => $etcd_servers,
   }
 
-  class { 'kube_hard_way::bootstrap::controller_manager': }
-  class { 'kube_hard_way::bootstrap::kube_scheduler': }
+  class { 'kube_hard_way::bootstrap::controller_manager':
+    kubernetes_version => $kubernetes_version,
+  }
+
+  class { 'kube_hard_way::bootstrap::kube_scheduler':
+    kubernetes_version => $kubernetes_version,
+  }
 }

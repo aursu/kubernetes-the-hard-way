@@ -9,6 +9,7 @@ describe 'kube_hard_way::bootstrap::kube_apiserver' do
       let(:params) do
         {
           server_name: '127.0.0.1',
+          kubernetes_version: '1.28.4',
         }
       end
 

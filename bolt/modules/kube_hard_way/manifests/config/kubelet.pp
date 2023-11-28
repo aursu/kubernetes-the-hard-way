@@ -53,16 +53,16 @@ class kube_hard_way::config::kubelet (
   Stdlib::Unixpath $cert_dir = $kube_hard_way::params::cert_dir,
   Stdlib::Unixpath $client_ca_file = "${cert_dir}/ca.pem",
   Stdlib::Host $cluster_domain = 'cluster.local',
-  Stdlib::IP::Address $dns_addr = $kube_hard_way::params::dns_addr,
+  Stdlib::IP::Address $dns_addr = $kube_hard_way::global::dns_addr,
   Array[Stdlib::Host] $cluster_dns = [$dns_addr],
-  Stdlib::IP::Address $pod_subnet = $kube_hard_way::params::pod_subnet,
+  Stdlib::IP::Address $pod_subnet = $kube_hard_way::global::pod_subnet,
   Stdlib::Unixpath $resolv_conf = '/run/systemd/resolve/resolv.conf',
   String $runtime_request_timeout = '15m',
   Stdlib::Host $instance = $facts['networking']['hostname'],
   Stdlib::Unixpath $tls_cert_file = "${cert_dir}/${instance}.pem",
   Stdlib::Unixpath $tls_private_keyfile = "${cert_dir}/${instance}-key.pem",
   Enum['cgroupfs', 'systemd'] $cgroup_driver = 'systemd',
-) inherits kube_hard_way::params {
+) inherits kube_hard_way::global {
   include kubeinstall
   include kubeinstall::directory_structure
 

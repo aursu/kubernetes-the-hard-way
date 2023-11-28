@@ -5,12 +5,14 @@
 # @example
 #   include kube_hard_way::bootstrap::worker
 class kube_hard_way::bootstrap::worker (
-  String $containerd_version = '1.7.7',
-  Stdlib::IP::Address $pod_subnet = $kube_hard_way::params::pod_subnet,
-) inherits kube_hard_way::params {
+  Stdlib::IP::Address $pod_subnet = $kube_hard_way::global::pod_subnet,
+) inherits kube_hard_way::global {
   # https://github.com/containerd/containerd/blob/main/docs/getting-started.md
   # https://kubernetes.io/docs/setup/production-environment/container-runtimes/#containerd
   # https://github.com/aursu/kubernetes-the-hard-way/blob/master/docs/09-bootstrapping-kubernetes-workers.md#provisioning-a-kubernetes-worker-node
+
+  $kubernetes_version = $kube_hard_way::global::kubernetes_version
+  $containerd_version = $kube_hard_way::global::containerd_version
 
   # dependencies
   package { ['socat', 'conntrack', 'ipset']:
@@ -20,8 +22,13 @@ class kube_hard_way::bootstrap::worker (
   # disable swap
   include kubeinstall::system::swap
 
-  include kube_hard_way::bootstrap::kubelet
-  include kube_hard_way::bootstrap::kube_proxy
+  class { 'kube_hard_way::bootstrap::kubelet':
+    kubernetes_version => $kubernetes_version,
+  }
+
+  class { 'kube_hard_way::bootstrap::kube_proxy':
+    kubernetes_version => $kubernetes_version,
+  }
 
   # containerd CRI
   class { 'kubeinstall::runtime::containerd':

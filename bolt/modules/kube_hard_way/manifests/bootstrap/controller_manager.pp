@@ -45,22 +45,26 @@
 # @example
 #   include kube_hard_way::bootstrap::controller_manager
 class kube_hard_way::bootstrap::controller_manager (
-  Stdlib::IP::Address $bind_address = '0.0.0.0',
-  String $cluster_name = 'kubernetes',
-  Stdlib::Unixpath $cluster_signing_cert_file = '/etc/kubernetes/pki/ca.pem',
-  Stdlib::Unixpath $cluster_signing_key_file = '/etc/kubernetes/pki/ca-key.pem',
-  String $kubeconfig = '/etc/kubernetes/pki/kube-controller-manager.kubeconfig',
-  Stdlib::Unixpath $root_ca_file = '/etc/kubernetes/pki/ca.pem',
-  Stdlib::Unixpath $service_account_signing_key_file = '/etc/kubernetes/pki/service-account-key.pem',
-  Stdlib::Unixpath $service_account_private_key_file = $service_account_signing_key_file,
-  Stdlib::IP::Address $service_cluster_ip_range = '10.32.0.0/24',
-  Stdlib::IP::Address $cluster_cidr = $kube_hard_way::params::cluster_cidr,
-) inherits kube_hard_way::params {
+  Kubeinstall::VersionPrefix $kubernetes_version,
+  Stdlib::IP::Address $bind_address                     = '0.0.0.0',
+  String              $cluster_name                     = 'kubernetes',
+  Stdlib::Unixpath    $cluster_signing_cert_file        = '/etc/kubernetes/pki/ca.pem',
+  Stdlib::Unixpath    $cluster_signing_key_file         = '/etc/kubernetes/pki/ca-key.pem',
+  String              $kubeconfig                       = '/etc/kubernetes/pki/kube-controller-manager.kubeconfig',
+  Stdlib::Unixpath    $root_ca_file                     = '/etc/kubernetes/pki/ca.pem',
+  Stdlib::Unixpath    $service_account_signing_key_file = '/etc/kubernetes/pki/service-account-key.pem',
+  Stdlib::Unixpath    $service_account_private_key_file = $service_account_signing_key_file,
+  Stdlib::IP::Address $service_cluster_ip_range         = '10.32.0.0/24',
+  Stdlib::IP::Address $cluster_cidr                     = $kube_hard_way::global::cluster_cidr,
+) inherits kube_hard_way::global {
   include bsys::systemctl::daemon_reload
 
   include kube_hard_way::setup
   include kubeinstall
-  include kubeinstall::component::kube_controller_manager
+
+  class { 'kubeinstall::component::kube_controller_manager':
+    kubernetes_version => $kubernetes_version,
+  }
 
   file { '/etc/systemd/system/kube-controller-manager.service':
     ensure  => file,

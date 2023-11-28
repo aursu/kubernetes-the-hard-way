@@ -5,14 +5,18 @@
 # @example
 #   include kube_hard_way::bootstrap::kube_scheduler
 class kube_hard_way::bootstrap::kube_scheduler (
+  Kubeinstall::VersionPrefix $kubernetes_version,
   Stdlib::Unixpath $config = "${kube_hard_way::params::config_dir}/kube-scheduler.yaml",
 ) inherits kube_hard_way::params {
   include bsys::systemctl::daemon_reload
 
   include kube_hard_way::setup
   include kubeinstall
-  include kubeinstall::component::kube_scheduler
   include kube_hard_way::config::kube_scheduler
+
+  class { 'kubeinstall::component::kube_scheduler':
+    kubernetes_version => $kubernetes_version,
+  }
 
   file { '/etc/systemd/system/kube-scheduler.service':
     ensure  => file,

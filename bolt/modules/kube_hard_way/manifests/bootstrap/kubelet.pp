@@ -5,6 +5,7 @@
 # @example
 #   include kube_hard_way::bootstrap::kubelet
 class kube_hard_way::bootstrap::kubelet (
+  Kubeinstall::VersionPrefix $kubernetes_version,
   Stdlib::Unixpath $runtime_socket = '/var/run/containerd/containerd.sock',
   Stdlib::Unixpath $cert_dir = $kube_hard_way::params::cert_dir,
   Stdlib::Host $instance = $facts['networking']['hostname'],
@@ -12,11 +13,14 @@ class kube_hard_way::bootstrap::kubelet (
   include bsys::systemctl::daemon_reload
 
   include kubeinstall
-  include kubeinstall::component::kubelet
   include kube_hard_way::config::kubelet
 
   $container_runtime_endpoint = "unix://${runtime_socket}"
   $kubeconfig = "${cert_dir}/${instance}.kubeconfig"
+
+  class { 'kubeinstall::component::kubelet':
+    kubernetes_version => $kubernetes_version,
+  }
 
   file { '/etc/systemd/system/kubelet.service':
     ensure  => file,

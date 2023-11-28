@@ -21,8 +21,8 @@
 class kube_hard_way::config::kube_proxy (
   Stdlib::Unixpath $cert_dir = $kube_hard_way::params::cert_dir,
   Enum['iptables', 'ipvs'] $proxy_mode = 'iptables',
-  Stdlib::IP::Address $cluster_cidr = $kube_hard_way::params::cluster_cidr,
-) inherits kube_hard_way::params {
+  Stdlib::IP::Address $cluster_cidr = $kube_hard_way::global::cluster_cidr,
+) inherits kube_hard_way::global {
   include kubeinstall
   include kubeinstall::directory_structure
 
