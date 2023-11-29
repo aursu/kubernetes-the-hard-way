@@ -9,14 +9,17 @@ class kube_hard_way::bootstrap::kubelet (
   Stdlib::Unixpath $runtime_socket = '/var/run/containerd/containerd.sock',
   Stdlib::Unixpath $cert_dir = $kube_hard_way::params::cert_dir,
   Stdlib::Host $instance = $facts['networking']['hostname'],
-) inherits kube_hard_way::params {
+  Stdlib::IP::Address $pod_subnet = $kube_hard_way::global::pod_subnet,
+) inherits kube_hard_way::global {
   include bsys::systemctl::daemon_reload
-
   include kubeinstall
-  include kube_hard_way::config::kubelet
 
   $container_runtime_endpoint = "unix://${runtime_socket}"
   $kubeconfig = "${cert_dir}/${instance}.kubeconfig"
+
+  class { 'kube_hard_way::config::kubelet':
+    pod_subnet => $pod_subnet,
+  }
 
   class { 'kubeinstall::component::kubelet':
     kubernetes_version => $kubernetes_version,

@@ -85,10 +85,10 @@ class kube_hard_way::bootstrap::kube_apiserver (
   Stdlib::Unixpath $kubelet_client_key = '/etc/kubernetes/pki/kubernetes-key.pem',
   Stdlib::Unixpath $service_account_key_file = '/etc/kubernetes/pki/service-account.pem',
   Stdlib::Unixpath $service_account_signing_key_file = '/etc/kubernetes/pki/service-account-key.pem',
-  Stdlib::IP::Address $service_cluster_ip_range = '10.32.0.0/24',
+  Stdlib::IP::Address $service_cluster_ip_range = $kube_hard_way::global::cluster_ip_range,
   Stdlib::Unixpath $tls_cert_file = '/etc/kubernetes/pki/kubernetes.pem',
   Stdlib::Unixpath $tls_private_key_file = '/etc/kubernetes/pki/kubernetes-key.pem',
-) inherits kube_hard_way::params {
+) inherits kube_hard_way::global {
   include bsys::systemctl::daemon_reload
 
   include kube_hard_way::setup

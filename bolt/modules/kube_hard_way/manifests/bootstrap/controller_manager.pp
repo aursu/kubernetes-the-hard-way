@@ -54,7 +54,7 @@ class kube_hard_way::bootstrap::controller_manager (
   Stdlib::Unixpath    $root_ca_file                     = '/etc/kubernetes/pki/ca.pem',
   Stdlib::Unixpath    $service_account_signing_key_file = '/etc/kubernetes/pki/service-account-key.pem',
   Stdlib::Unixpath    $service_account_private_key_file = $service_account_signing_key_file,
-  Stdlib::IP::Address $service_cluster_ip_range         = '10.32.0.0/24',
+  Stdlib::IP::Address $service_cluster_ip_range         = $kube_hard_way::global::cluster_ip_range,
   Stdlib::IP::Address $cluster_cidr                     = $kube_hard_way::global::cluster_cidr,
 ) inherits kube_hard_way::global {
   include bsys::systemctl::daemon_reload
