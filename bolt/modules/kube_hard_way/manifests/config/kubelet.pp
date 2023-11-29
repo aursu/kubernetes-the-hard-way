@@ -89,7 +89,9 @@ class kube_hard_way::config::kubelet (
     },
     'clusterDomain'         => $cluster_domain,
     'clusterDNS'            => $cluster_dns,
-    'podCIDR'               => $pod_subnet,
+    # podCIDR is the CIDR to use for pod IP addresses, only used in standalone mode. In cluster
+    # mode, this is obtained from the control plane.
+    # 'podCIDR'              => $pod_subnet,
     'resolvConf'            => $resolv_conf,
     'runtimeRequestTimeout' => $runtime_request_timeout,
     'tlsCertFile'           => $tls_cert_file,
