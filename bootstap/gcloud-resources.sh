@@ -3,17 +3,23 @@
 gcloud config set compute/region us-west1
 gcloud config set compute/zone us-west1-c
 
+# See also https://docs.tigera.io/calico/latest/getting-started/kubernetes/self-managed-public-cloud/gce
+#          https://www.tigera.io/blog/everything-you-need-to-know-about-kubernetes-networking-on-google-cloud/
+# Create the VPC.
 gcloud compute networks  describe kubernetes-the-hard-way ||
     gcloud compute networks create kubernetes-the-hard-way --subnet-mode custom
 
+# Create the `kubernetes` subnet in the `kubernetes-the-hard-way` VPC network
 gcloud compute networks subnets describe kubernetes ||
     gcloud compute networks subnets create kubernetes \
         --network kubernetes-the-hard-way \
         --range 10.240.0.0/24
 
+# Create a firewall rule that allows internal communication across TCP, UDP, ICMP 
+# and IP in IP (used for the Calico overlay)
 gcloud compute firewall-rules describe kubernetes-the-hard-way-allow-internal ||
     gcloud compute firewall-rules create kubernetes-the-hard-way-allow-internal \
-        --allow tcp,udp,icmp \
+        --allow tcp,udp,icmp,ipip \
         --network kubernetes-the-hard-way \
         --source-ranges 10.240.0.0/24,10.200.0.0/16
 
