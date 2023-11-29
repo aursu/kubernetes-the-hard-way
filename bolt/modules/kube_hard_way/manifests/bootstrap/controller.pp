@@ -15,6 +15,11 @@ class kube_hard_way::bootstrap::controller (
   include kubeinstall
   include kubeinstall::component::kubectl
 
+  # dependencies
+  package { ['socat', 'conntrack', 'ipset', 'ipvsadm']:
+    ensure => 'present',
+  }
+
   $kubernetes_version = $kube_hard_way::global::kubernetes_version
 
   class { 'kube_hard_way::bootstrap::kube_apiserver':
