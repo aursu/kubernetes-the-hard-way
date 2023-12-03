@@ -1,3 +1,0 @@
-[submodule "bootstrap/ingress-gce"]
-	path = bootstrap/ingress-gce
-	url = https://github.com/aursu/ingress-gce.git

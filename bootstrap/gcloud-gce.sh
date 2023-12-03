@@ -1,13 +1,10 @@
 #!/bin/bash
 
-[ -d ingress-gce ] || { echo "Git submodule ingress-gce not found in $(pwd)/ingress-gce."; exit -1; }
-
 export LANGUAGE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
-(cd .. && git submodule update --init && git submodule sync)
-
 export VERSION_TAG=v1.26.0
 
+git clone https://github.com/aursu/ingress-gce.git
 (cd ingress-gce && git checkout ${VERSION_TAG} -b ${VERSION_TAG})
 
 docker-compose build  --build-arg path=$(pwd) rocky8docker
