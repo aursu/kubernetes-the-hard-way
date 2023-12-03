@@ -8,6 +8,8 @@ export VERSION_TAG=v1.26.0
 git clone https://github.com/aursu/ingress-gce.git
 
 (cd ingress-gce && git checkout ${VERSION_TAG} -b ${VERSION_TAG})
+(cd ingress-gce && git ls-remote --exit-code --heads origin refs/heads/${VERSION_TAG} \
+    && git pull origin refs/heads/${VERSION_TAG})
 
 docker-compose build  --build-arg path=$(pwd) rocky8docker
 
