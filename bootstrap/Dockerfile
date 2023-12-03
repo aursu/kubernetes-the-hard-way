@@ -1,5 +1,5 @@
 ARG rocky=8.8.20230518
-ARG image=docker
+ARG image=docker-cli
 FROM aursu/rockylinux:${rocky}-${image}
 
 ARG path=/project
