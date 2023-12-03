@@ -1,0 +1,3 @@
+[submodule "bootstap/ingress-gce"]
+	path = bootstap/ingress-gce
+	url = https://github.com/aursu/ingress-gce.git

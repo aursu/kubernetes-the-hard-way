@@ -2,4 +2,3 @@
 /pki/*.csr
 /pki/*.pem
 /bolt/downloads
-/bootstap/ingress-gce/
