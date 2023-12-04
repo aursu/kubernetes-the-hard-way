@@ -8,11 +8,11 @@ COPY system/etc/yum.repos.d/google-cloud-sdk.repo /etc/yum.repos.d/google-cloud-
 COPY system/etc/yum.repos.d/kubernetes.repo /etc/yum.repos.d/kubernetes.repo
 
 RUN set -ex \
-	&& microdnf -y install \
-		google-cloud-cli \
-		kubectl \
-	    make \
-	&& microdnf clean all && rm -rf /var/cache/dnf /var/lib/rpm/__db*
+    && microdnf -y install \
+        google-cloud-cli \
+        kubectl \
+        make \
+    && microdnf clean all && rm -rf /var/cache/dnf /var/lib/rpm/__db*
 
 COPY ingress-gce $path/ingress-gce
 WORKDIR $path/ingress-gce
