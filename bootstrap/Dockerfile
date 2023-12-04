@@ -4,8 +4,11 @@ FROM aursu/rockylinux:${rocky}-${image}
 
 ARG path=/project
 
+COPY system/etc/yum.repos.d/google-cloud-sdk.repo.repo /etc/yum.repos.d/google-cloud-sdk.repo.repo
+
 RUN set -ex \
 	&& microdnf -y install \
+		google-cloud-cli \
 	    make \
 	&& microdnf clean all && rm -rf /var/cache/dnf /var/lib/rpm/__db*
 
