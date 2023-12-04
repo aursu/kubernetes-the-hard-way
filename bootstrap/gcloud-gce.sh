@@ -15,3 +15,15 @@ docker-compose build --build-arg path=$(pwd) rocky8docker
 docker-compose run -ti --rm \
     -v $(pwd)/ingress-gce/bin/amd64:$(pwd)/ingress-gce/bin/amd64 \
     -v ~/.docker/config.json:/root/.docker/config.json rocky8docker
+
+# gce.conf
+PROJECT_ID=$(gcloud config list --format 'value(core.project)' 2>/dev/null)
+NETWORK_NAME=kubernetes-the-hard-way
+SUBNETWORK_NAME=kubernetes
+ZONE=$(gcloud config get-value compute/zone)
+
+sed -i "/api-endpoint/d" ingress-gce/docs/deploy/gke/non-gcp/gce.conf
+sed -i "s/\[PROJECT\]/$PROJECT_ID/" ingress-gce/docs/deploy/gke/non-gcp/gce.conf
+sed -i "s/\[NETWORK\]/$NETWORK_NAME/" ingress-gce/docs/deploy/gke/non-gcp/gce.conf
+sed -i "s/\[SUBNETWORK\]/$SUBNETWORK_NAME/" ingress-gce/docs/deploy/gke/non-gcp/gce.conf
+sed -i "s/\[ZONE\]/$ZONE/" ingress-gce/docs/deploy/gke/non-gcp/gce.conf
