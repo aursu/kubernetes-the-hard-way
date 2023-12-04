@@ -5,6 +5,8 @@ services:
       context: .
       args:
         rocky: $RL8
+    environment:
+      REGISTRY: ghcr.io/aursu
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     image: aursu/rockylinux:${RL8TAG}-gce-build

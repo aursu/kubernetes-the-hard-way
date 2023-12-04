@@ -11,7 +11,7 @@ git clone https://github.com/aursu/ingress-gce.git
 (cd ingress-gce && git ls-remote --exit-code --heads origin refs/heads/${VERSION_TAG} \
     && git pull origin refs/heads/${VERSION_TAG})
 
-docker-compose build  --build-arg path=$(pwd) rocky8docker
+docker-compose build --build-arg path=$(pwd) rocky8docker
 
 # docker run --rm --sig-proxy=true -u $(id -u):$(id -g) -v $(pwd)/.go:/go \
 #     -v $(pwd):/go/src/k8s.io/ingress-gce \
