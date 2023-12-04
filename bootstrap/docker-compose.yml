@@ -1,5 +1,7 @@
 version: "3"
 services:
+  rocky8cleanup:
+    image: "aursu/rockylinux:${RL8TAG}-scm"
   rocky8docker:
     build:
       context: .
