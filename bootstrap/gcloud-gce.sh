@@ -12,6 +12,6 @@ git clone https://github.com/aursu/ingress-gce.git
     && git pull origin refs/heads/${VERSION_TAG})
 
 docker-compose build --build-arg path=$(pwd) rocky8docker
-
-docker-compose run -ti --rm -v $(pwd)/ingress-gce/bin/amd64:$(pwd)/ingress-gce/bin/amd64 \
+docker-compose run -ti --rm \
+    -v $(pwd)/ingress-gce/bin/amd64:$(pwd)/ingress-gce/bin/amd64 \
     -v ~/.docker/config.json:/root/.docker/config.json rocky8docker
