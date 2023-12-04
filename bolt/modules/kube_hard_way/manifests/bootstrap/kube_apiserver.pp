@@ -2,6 +2,9 @@
 #
 # Bootstrap of Kubernetes API server
 #
+# @param server_name
+#   Kubernetes Cluster address or IP which is accessible on port 6443
+#
 # @param advertise_address
 #   The IP address on which to advertise the apiserver to members of the cluster. This address
 #   must be reachable by the rest of the cluster. If blank, the --bind-address will be used.

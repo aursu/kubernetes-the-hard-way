@@ -1,6 +1,6 @@
 plan kubernetes::config::worker (
   Stdlib::Host $control_plain = 'controller-0',
-  TargetSpec $workers = 'workers',
+  TargetSpec $targets = 'workers',
   String $gce_public_address = 'kubernetes-the-hard-way',
 ) {
   unless get_targets($control_plain).size == 1 {
@@ -22,7 +22,7 @@ plan kubernetes::config::worker (
 
   run_plan(facts, $main_controller)
 
-  get_targets($workers).each |$target| {
+  get_targets($targets).each |$target| {
     $instance = $target.name
     apply($main_controller) {
       kube_hard_way::kubeconfig { $instance:
@@ -38,7 +38,7 @@ plan kubernetes::config::worker (
   $downloaded.each |$file| {
     $down_path = $file['path']
 
-    get_targets($workers).each |$target| {
+    get_targets($targets).each |$target| {
       $instance = $target.name
 
       upload_file("${down_path}/${instance}.kubeconfig", "${cert_dir}/${instance}.kubeconfig", $target)

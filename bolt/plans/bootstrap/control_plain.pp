@@ -15,9 +15,19 @@ plan kubernetes::bootstrap::control_plain (
     fail_plan('Unable ot retrieve Kubernetes cluster address')
   }
 
-  apply($targets) {
-    include kube_hard_way::bootstrap::health_checks
-    class { 'kube_hard_way::bootstrap::controller': server_name => $server_name, }
+  $cert_dir = '/etc/kubernetes/pki'
+  $admin_config = "${cert_dir}/admin.kubeconfig"
+
+  get_targets($targets).each |$target| {
+    apply($target) {
+      include kube_hard_way::bootstrap::health_checks
+      class { 'kube_hard_way::bootstrap::controller':
+        server_name    => $server_name,
+        instance       => $target.name,
+        enable_kubelet => true,
+        kubeconfig     => $admin_config,
+      }
+    }
   }
 
   apply($main_controller) {

@@ -45,11 +45,17 @@ plan kubernetes::config::api (
     }
   }
 
+  run_plan( 'kubernetes::config::worker',
+    control_plain  => $main_controller.name,
+    targets        => $controllers,
+  )
+
   $downloaded = download_file($cert_dir, 'pki', $main_controller)
   $downloaded.each |$file| {
     $down_path = $file['path']
 
     upload_file("${down_path}/kube-proxy.kubeconfig", "${cert_dir}/kube-proxy.kubeconfig", $workers)
+    upload_file("${down_path}/kube-proxy.kubeconfig", "${cert_dir}/kube-proxy.kubeconfig", $rest_controllers)
     upload_file("${down_path}/kube-controller-manager.kubeconfig", "${cert_dir}/kube-controller-manager.kubeconfig", $rest_controllers)
     upload_file("${down_path}/kube-scheduler.kubeconfig", "${cert_dir}/kube-scheduler.kubeconfig", $rest_controllers)
     upload_file("${down_path}/admin.kubeconfig", "${cert_dir}/admin.kubeconfig", $rest_controllers)

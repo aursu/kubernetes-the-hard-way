@@ -15,9 +15,7 @@ class kube_hard_way::bootstrap::worker (
   $containerd_version = $kube_hard_way::global::containerd_version
 
   # dependencies
-  package { ['socat', 'conntrack', 'ipset']:
-    ensure => 'present',
-  }
+  include kube_hard_way::bootstrap::dependencies
 
   # disable swap
   include kubeinstall::system::swap

@@ -43,6 +43,11 @@ plan kubernetes::certificate::api (
     include kubeinstall::directory_structure
   }
 
+  run_plan( 'kubernetes::certificate::worker',
+    control_plain  => $main_controller.name,
+    targets        => $controllers,
+  )
+
   $downloaded = download_file($cert_dir, 'pki', $main_controller)
   $downloaded.each |$file| {
     $down_path = $file['path']
