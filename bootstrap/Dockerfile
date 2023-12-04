@@ -11,3 +11,5 @@ RUN set -ex \
 
 COPY ingress-gce $path/ingress-gce
 WORKDIR $path/ingress-gce
+
+CMD make only-push-glbc
