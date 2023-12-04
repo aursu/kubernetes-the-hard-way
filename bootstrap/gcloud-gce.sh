@@ -21,18 +21,13 @@ git clone https://github.com/aursu/ingress-gce.git
 
 docker-compose build --build-arg path=$(pwd) rocky8docker
 
-#docker-compose run --rm \
-#    -v $(pwd)/ingress-gce/bin/amd64:$(pwd)/ingress-gce/bin/amd64 \
-#    -v ~/.docker/config.json:/root/.docker/config.json rocky8docker
+# build docker image
+docker-compose run --rm \
+    -v $(pwd)/ingress-gce/bin/amd64:$(pwd)/ingress-gce/bin/amd64 \
+    -v ~/.docker/config.json:/root/.docker/config.json rocky8docker
 
-# gce.conf
-#PROJECT_ID=$(gcloud config list --format 'value(core.project)' 2>/dev/null)
-#NETWORK_NAME=kubernetes-the-hard-way
-#SUBNETWORK_NAME=kubernetes
-#ZONE=$(gcloud config get-value compute/zone)
-
-#sed -i "/api-endpoint/d" ingress-gce/docs/deploy/gke/non-gcp/gce.conf
-#sed -i "s/\[PROJECT\]/$PROJECT_ID/" ingress-gce/docs/deploy/gke/non-gcp/gce.conf
-#sed -i "s/\[NETWORK\]/$NETWORK_NAME/" ingress-gce/docs/deploy/gke/non-gcp/gce.conf
-#sed -i "s/\[SUBNETWORK\]/$SUBNETWORK_NAME/" ingress-gce/docs/deploy/gke/non-gcp/gce.conf
-#sed -i "s/\[ZONE\]/$ZONE/" ingress-gce/docs/deploy/gke/non-gcp/gce.conf
+docker-compose run --rm -v $(pwd):$(pwd) -w $(pwd) \
+    -v ~/.docker/config.json:/root/.docker/config.json \
+    -v ~/.config/gcloud:/root/.config/gcloud \
+    -v ~/.kube/config:/root/.kube/config \
+    rocky8docker ./gcloud-gce-conf.sh
