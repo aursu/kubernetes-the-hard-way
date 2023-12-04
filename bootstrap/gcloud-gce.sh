@@ -27,7 +27,11 @@ docker-compose run --rm \
     -v ~/.docker/config.json:/root/.docker/config.json rocky8docker
 
 docker-compose run --rm -v $(pwd):$(pwd) -w $(pwd) \
-    -v ~/.docker/config.json:/root/.docker/config.json \
     -v ~/.config/gcloud:/root/.config/gcloud \
     -v ~/.kube/config:/root/.kube/config \
     rocky8docker ./gcloud-gce-conf.sh
+
+docker-compose run --rm -v $(pwd):$(pwd) -w $(pwd) \
+    -v ~/.config/gcloud:/root/.config/gcloud \
+    -v ~/.kube/config:/root/.kube/config \
+    rocky8docker ./gcloud-iam.sh
