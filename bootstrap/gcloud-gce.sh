@@ -19,6 +19,7 @@ git clone https://github.com/aursu/ingress-gce.git
 (cd ingress-gce && git ls-remote --exit-code --heads origin refs/heads/${VERSION_TAG} \
     && git pull origin refs/heads/${VERSION_TAG})
 
+# build docker image with Docker CLI, Google SDK CLI, kubectl inside
 docker-compose build --build-arg path=$(pwd) rocky8docker
 
 # build docker image
@@ -29,9 +30,9 @@ docker-compose run --rm \
 docker-compose run --rm -v $(pwd):$(pwd) -w $(pwd) \
     -v ~/.config/gcloud:/root/.config/gcloud \
     -v ~/.kube/config:/root/.kube/config \
-    rocky8docker ./gcloud-gce-conf.sh
+    rocky8docker ./gcloud-iam.sh
 
 docker-compose run --rm -v $(pwd):$(pwd) -w $(pwd) \
     -v ~/.config/gcloud:/root/.config/gcloud \
     -v ~/.kube/config:/root/.kube/config \
-    rocky8docker ./gcloud-iam.sh
+    rocky8docker ./gcloud-gce-deploy.sh

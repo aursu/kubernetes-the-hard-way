@@ -2,3 +2,5 @@
 /pki/*.csr
 /pki/*.pem
 /bolt/downloads
+/bolt/inventory.yaml
+/pki/admin.kubeconfig
