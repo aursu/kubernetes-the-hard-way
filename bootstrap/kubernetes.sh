@@ -16,3 +16,4 @@ bolt plan run kubernetes::bootstrap::control_plain
 bolt plan run kubernetes::bootstrap::worker
 
 bolt plan run kubernetes::bootstrap::components
+bolt plan run kubernetes::bootstrap::ingress_gce
