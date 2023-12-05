@@ -6,7 +6,7 @@ modules:
 - git: https://github.com/aursu/puppet-etcd.git
   ref: v0.4.1
 - git: https://github.com/aursu/puppet-kubeinstall.git
-  ref: v0.36.2
+  ref: v0.38.0
 - git: https://github.com/aursu/puppet-tlsinfo.git
   ref: v0.11.0
 - git: https://github.com/aursu/puppet-nginx.git
