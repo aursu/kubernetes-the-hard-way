@@ -2,6 +2,7 @@ plan kubernetes::bootstrap::control_plain (
   TargetSpec $main_controller = 'controller-0',
   TargetSpec $targets = 'controllers',
   String $gce_public_address = 'kubernetes-the-hard-way',
+  Boolean $enable_kubelet = true,
 ) {
   run_plan(facts, $targets)
 
@@ -24,7 +25,7 @@ plan kubernetes::bootstrap::control_plain (
       class { 'kube_hard_way::bootstrap::controller':
         server_name    => $server_name,
         instance       => $target.name,
-        enable_kubelet => true,
+        enable_kubelet => $enable_kubelet,
         kubeconfig     => $admin_config,
       }
     }

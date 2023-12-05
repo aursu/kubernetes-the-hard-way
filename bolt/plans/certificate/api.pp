@@ -8,6 +8,7 @@ plan kubernetes::certificate::api (
     '10.240.0.12',
   ],
   String              $gce_public_address = 'kubernetes-the-hard-way',
+  Boolean             $enable_kubelet     = true,
 ) {
   unless get_targets($control_plain).size == 1 {
     fail("Must specify a single control plane, not ${control_plain}")
@@ -43,10 +44,12 @@ plan kubernetes::certificate::api (
     include kubeinstall::directory_structure
   }
 
-  run_plan( 'kubernetes::certificate::worker',
-    control_plain  => $main_controller.name,
-    targets        => $controllers,
-  )
+  if $enable_kubelet {
+    run_plan( 'kubernetes::certificate::worker',
+      control_plain  => $main_controller.name,
+      targets        => $controllers,
+    )
+  }
 
   $downloaded = download_file($cert_dir, 'pki', $main_controller)
   $downloaded.each |$file| {

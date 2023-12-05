@@ -3,6 +3,7 @@ plan kubernetes::config::api (
   TargetSpec $controllers = 'controllers',
   TargetSpec $workers = 'workers',
   String $gce_public_address = 'kubernetes-the-hard-way',
+  Boolean $enable_kubelet = true,
 ) {
   unless get_targets($control_plain).size == 1 {
     fail("Must specify a single control plane, not ${control_plain}")
@@ -45,10 +46,12 @@ plan kubernetes::config::api (
     }
   }
 
-  run_plan( 'kubernetes::config::worker',
-    control_plain  => $main_controller.name,
-    targets        => $controllers,
-  )
+  if $enable_kubelet {
+    run_plan( 'kubernetes::config::worker',
+      control_plain  => $main_controller.name,
+      targets        => $controllers,
+    )
+  }
 
   $downloaded = download_file($cert_dir, 'pki', $main_controller)
   $downloaded.each |$file| {
