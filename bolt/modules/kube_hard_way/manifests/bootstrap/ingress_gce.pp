@@ -1,23 +1,25 @@
 # @summary Add appropriate Kubernetes labels
 #
-# Add appropriate Kubernetes labels
-# see https://github.com/kubernetes/ingress-gce/tree/master/docs/deploy/gke/non-gcp#set-locality-labels-on-nodes
-# also https://kubernetes.io/docs/reference/labels-annotations-taints/#node-kubernetes-io-exclude-from-external-load-balancers
+# Adds appropriate Kubernetes labels. 
+# See https://github.com/kubernetes/ingress-gce/tree/master/docs/deploy/gke/non-gcp#set-locality-labels-on-nodes
+# and https://kubernetes.io/docs/reference/labels-annotations-taints/#node-kubernetes-io-exclude-from-external-load-balancers for more information.
 #
 # @param exclude_from_external_load_balancers
-#   Where to set label node.kubernetes.io/exclude-from-external-load-balancers for node or not
+#   Determines whether to set the label node.kubernetes.io/exclude-from-external-load-balancers
+#   for a node.
 #
 # @param gcp_region
-#   If specified label topology.kubernetes.io/region will be set to
+#   If specified, the label topology.kubernetes.io/region will be set accordingly.
 #
 # @param gcp_zone
-#   If specified label topology.kubernetes.io/zone will be set to
+#   If specified, the label topology.kubernetes.io/zone will be set accordingly.
 #
 # @param instance
-#   Node name
+#   Name of the node.
 #
 # @param kubeconfig
-#   Kubernetes auth config to pass as KUBECONFIG env variable name for kubectl command
+#   Kubernetes authentication configuration to be passed as the KUBECONFIG environment variable
+#   for the kubectl command.
 #
 # @example
 #   include kube_hard_way::bootstrap::ingress_gce
@@ -31,6 +33,22 @@ class kube_hard_way::bootstrap::ingress_gce (
   if $exclude_from_external_load_balancers {
     kubeinstall::node::label { 'node.kubernetes.io/exclude-from-external-load-balancers':
       value      => 'true',
+      node_name  => $instance,
+      kubeconfig => $kubeconfig,
+    }
+  }
+
+  if $gcp_region {
+    kubeinstall::node::label { 'topology.kubernetes.io/region':
+      value      => $gcp_region,
+      node_name  => $instance,
+      kubeconfig => $kubeconfig,
+    }
+  }
+
+  if $gcp_zone {
+    kubeinstall::node::label { 'topology.kubernetes.io/zone':
+      value      => $gcp_zone,
       node_name  => $instance,
       kubeconfig => $kubeconfig,
     }
