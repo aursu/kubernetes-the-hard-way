@@ -1,5 +1,6 @@
 plan kubernetes::bootstrap::argocd (
   TargetSpec $main_controller = 'controller-0',
+  Boolean $high_available = true,
 ) {
   run_plan(facts, $main_controller)
 
@@ -10,6 +11,7 @@ plan kubernetes::bootstrap::argocd (
     include kubeinstall
     class { 'kubeinstall::install::argocd':
       kubeconfig => $admin_config,
+      ha         => $high_available,
     }
   }
 }
