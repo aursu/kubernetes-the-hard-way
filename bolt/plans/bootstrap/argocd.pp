@@ -11,6 +11,7 @@ plan kubernetes::bootstrap::argocd (
     include kubeinstall
     class { 'kubeinstall::install::argocd':
       kubeconfig => $admin_config,
+      expose     => true,
       ha         => $high_available,
     }
   }
