@@ -14,7 +14,7 @@ gcloud iam service-accounts describe glbc-service-account@${PROJECT_ID}.iam.gser
     --role roles/compute.admin
 }
 
-kubectl get -n  kube-system secret/glbc-gcp-key || {
+kubectl get -n kube-system secret/glbc-gcp-key || {
   # [Upload GCP Service Account Key as K8s Secret](https://github.com/kubernetes/ingress-gce/tree/master/docs/deploy/gke/non-gcp#upload-gcp-service-account-key-as-k8s-secret)
   # Create key for glbc-service-account.
   gcloud iam service-accounts keys create key.json --iam-account \
@@ -22,8 +22,9 @@ kubectl get -n  kube-system secret/glbc-gcp-key || {
 
   # Store the key as a secret in k8s. The secret will be mounted as a volume in
   # glbc.yaml.
-  kubectl get -n  kube-system secret/glbc-gcp-key ||
-    kubectl create secret generic glbc-gcp-key --from-file=key.json -n kube-system
+  kubectl create secret generic glbc-gcp-key \
+    --from-file=key.json -n kube-system --dry-run=client -o yaml |
+  kubectl apply -f -
 
   rm -f key.json
 }

@@ -12,9 +12,10 @@ cp ingress-gce/docs/deploy/gke/non-gcp/*.conf ingress-gce/docs/deploy/gke/non-gc
 # Grant permission to current GCP user to create new k8s ClusterRoles.
 kubectl create clusterrolebinding one-binding-to-rule-them-all \
   --clusterrole=cluster-admin \
-  --user=$ACCOUNT_ID
+  --user=$ACCOUNT_ID --dry-run=client -o yaml |
+kubectl apply -f -
 
-kubectl create -f rbac.yaml
+kubectl apply -f rbac.yaml
 
 # [Create configmap for NEG controller](https://github.com/kubernetes/ingress-gce/tree/master/docs/deploy/gke/non-gcp#create-configmap-for-neg-controller)
 # Fill in "project-id", "network-name", "local-zone" in gce.conf
@@ -24,8 +25,9 @@ sed -i -e "/api-endpoint/d" \
     -e "s/\[ZONE\]/$ZONE/" gce.conf
 
 # put the gce.conf to configmap
-kubectl create configmap gce-config --from-file=gce.conf -n kube-system
+kubectl create configmap gce-config --from-file=gce.conf -n kube-system --dry-run=client -o yaml |
+kubectl apply -f -
 
 # [Deploy NEG controller](https://github.com/kubernetes/ingress-gce/tree/master/docs/deploy/gke/non-gcp#deploy-neg-controller)
-kubectl create -f default-http-backend.yaml
-kubectl create -f glbc.yaml
+kubectl apply -f default-http-backend.yaml
+kubectl apply -f glbc.yaml
