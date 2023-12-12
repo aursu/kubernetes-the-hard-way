@@ -53,10 +53,11 @@ gcloud compute http-health-checks describe kubernetes ||
         --request-path "/healthz"
 
 # https://cloud.google.com/load-balancing/docs/health-checks#fw-netlb
+# https://cloud.google.com/load-balancing/docs/firewall-rules
 gcloud compute firewall-rules describe kubernetes-the-hard-way-allow-health-check ||
     gcloud compute firewall-rules create kubernetes-the-hard-way-allow-health-check \
         --network kubernetes-the-hard-way \
-        --source-ranges 209.85.152.0/22,209.85.204.0/22,35.191.0.0/16 \
+        --source-ranges 209.85.152.0/22,209.85.204.0/22,35.191.0.0/16,130.211.0.0/22 \
         --allow tcp
 # https://cloud.google.com/load-balancing/docs/network
 # https://cloud.google.com/load-balancing/docs/target-pools
