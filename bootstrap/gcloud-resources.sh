@@ -6,11 +6,11 @@ gcloud config set compute/zone us-west1-c
 # See also https://docs.tigera.io/calico/latest/getting-started/kubernetes/self-managed-public-cloud/gce
 #          https://www.tigera.io/blog/everything-you-need-to-know-about-kubernetes-networking-on-google-cloud/
 # Create the VPC.
-gcloud compute networks  describe kubernetes-the-hard-way ||
+gcloud compute networks describe kubernetes-the-hard-way ||
     gcloud compute networks create kubernetes-the-hard-way --subnet-mode custom
 
 # Create the `kubernetes` subnet in the `kubernetes-the-hard-way` VPC network
-gcloud compute networks subnets describe kubernetes ||
+gcloud compute networks subnets describe kubernetes --quiet ||
     gcloud compute networks subnets create kubernetes \
         --network kubernetes-the-hard-way \
         --range 10.240.0.0/24

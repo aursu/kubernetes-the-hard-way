@@ -1,5 +1,9 @@
 ## Google Cloud
 
+### Quotas
+
+Visit URL https://console.cloud.google.com/apis/api/compute.googleapis.com/quotas
+
 ### Related to Kubernetes articles
 
 1. [Ingress configuration on Google Cloud](https://cloud.google.com/kubernetes-engine/docs/how-to/ingress-configuration)
